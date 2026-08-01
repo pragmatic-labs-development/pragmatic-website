@@ -1033,158 +1033,197 @@ h1, h2, h3, h4 {
   border-top: 1px solid #dfe1e6;
 }
 
-.pricing__header {
-  text-align: center;
-  margin-bottom: 56px;
-}
-
 .pricing__title {
   font-size: 2.25rem;
   line-height: 1.15;
   letter-spacing: -0.03em;
 }
 
-/* --- Sprint block --- */
+/* --- Hero header (title/subtitle + feature badges) --- */
 
-.pricing__sprint {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 56px;
-  background: #fff;
-  border: 1px solid #dfe1e6;
-  border-radius: 14px;
-  padding: 48px;
+.pricing__hero-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
   margin-bottom: 40px;
 }
 
-.pricing__sprint-eyebrow {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #0052cc;
-  margin-bottom: 12px;
+.pricing__hero-header-text {
+  max-width: 620px;
 }
 
-.pricing__sprint-headline {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-bottom: 12px;
-  color: #172b4d;
-}
-
-.pricing__sprint-sub {
-  font-size: 0.9375rem;
+.pricing__hero-subtitle {
+  font-size: 1rem;
   color: #505f79;
-  line-height: 1.7;
-  margin-bottom: 28px;
-}
-
-.pricing__sprint-price-block {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.pricing__sprint-price {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #172b4d;
-  letter-spacing: -0.03em;
-}
-
-.pricing__sprint-per {
-  font-size: 0.9375rem;
-  color: #7a869a;
-  font-weight: 500;
-}
-
-.pricing__sprint-detail {
-  font-size: 0.8125rem;
-  color: #7a869a;
   line-height: 1.6;
-  margin-bottom: 28px;
+  margin-top: 16px;
 }
 
-/* Sprint roles list */
-
-.pricing__sprint-roles {
-  border-left: 1px solid #ebecf0;
-  padding-left: 48px;
-}
-
-.pricing__sprint-roles-title {
-  font-size: 0.8125rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #7a869a;
-  margin-bottom: 20px;
-}
-
-.pricing__sprint-role {
+.pricing__hero-features {
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px 0;
-  border-bottom: 1px solid #f4f5f7;
+  gap: 28px;
+  flex-shrink: 0;
 }
 
-.pricing__sprint-role:last-of-type {
-  border-bottom: none;
+.pricing__hero-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 150px;
 }
 
-.pricing__sprint-role-icon {
-  width: 36px;
-  height: 36px;
+.pricing__hero-feature-icon {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  background: rgba(0, 82, 204, 0.1);
+  color: #0052cc;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-.pricing__sprint-role-icon svg {
-  width: 16px;
-  height: 16px;
+.pricing__hero-feature-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
-.pricing__sprint-role-icon--yellow { background: rgba(247, 201, 72, 0.15); color: #d4a017; }
-.pricing__sprint-role-icon--teal   { background: rgba(0, 184, 217, 0.15); color: #00838f; }
-.pricing__sprint-role-icon--red    { background: rgba(255, 86, 48, 0.15); color: #c62828; }
-.pricing__sprint-role-icon--orange { background: rgba(255, 139, 0, 0.15); color: #e65100; }
-
-.pricing__sprint-role h5 {
+.pricing__hero-feature p {
   font-size: 0.875rem;
+  line-height: 1.4;
+  color: #172b4d;
+}
+
+.pricing__hero-feature p strong {
+  font-weight: 700;
+}
+
+/* --- Sprint hero (featured card + role grid) --- */
+
+.pricing__hero {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+  align-items: stretch;
+}
+
+.pricing__hero-card {
+  background: linear-gradient(180deg, #f0f4ff 0%, #fff 100%);
+  border: 2px solid #0052cc;
+  border-radius: 14px;
+  padding: 28px 24px;
+  box-shadow: 0 8px 24px rgba(0, 82, 204, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing__hero-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0052cc;
+  background: rgba(0, 82, 204, 0.1);
+  padding: 6px 12px;
+  border-radius: 100px;
+  margin-bottom: 16px;
+}
+
+.pricing__hero-title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #172b4d;
+  margin-bottom: 8px;
+}
+
+.pricing__hero-price {
+  display: block;
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #0052cc;
+  letter-spacing: -0.03em;
+}
+
+.pricing__hero-divider {
+  display: block;
+  height: 1px;
+  background: #dfe1e6;
+  margin: 20px 0;
+}
+
+.pricing__hero-desc {
+  font-size: 0.875rem;
+  color: #505f79;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.pricing__hero-cta {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.pricing__hero-link {
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0052cc;
+}
+
+.pricing__hero-roles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.pricing__hero-role {
+  background: #fff;
+  border: 1px solid #dfe1e6;
+  border-radius: 14px;
+  padding: 24px 20px;
+}
+
+.pricing__hero-role-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.pricing__hero-role-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.pricing__hero-role-icon--green  { background: rgba(54, 179, 126, 0.15); color: #1a8a52; }
+.pricing__hero-role-icon--purple { background: rgba(101, 84, 192, 0.15); color: #5e4db2; }
+.pricing__hero-role-icon--blue   { background: rgba(0, 122, 255, 0.12); color: #0052cc; }
+.pricing__hero-role-icon--orange { background: rgba(255, 139, 0, 0.15); color: #e65100; }
+.pricing__hero-role-icon--gray   { background: #f1f2f5; color: #42526e; }
+
+.pricing__hero-role h4 {
+  font-size: 1rem;
   font-weight: 700;
   color: #172b4d;
-  margin-bottom: 2px;
+  margin-bottom: 8px;
 }
 
-.pricing__sprint-role p {
+.pricing__hero-role p {
   font-size: 0.8125rem;
   color: #7a869a;
-  line-height: 1.45;
-}
-
-.pricing__sprint-mix {
-  font-size: 0.8125rem;
-  color: #505f79;
-  font-weight: 500;
-  font-style: italic;
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid #ebecf0;
-}
-
-.pricing__sprint-note {
-  font-size: 0.8125rem;
-  color: #7a869a;
-  line-height: 1.6;
-  font-style: italic;
-  margin-top: 16px;
+  line-height: 1.5;
 }
 
 /* --- Retainer block --- */
@@ -1443,7 +1482,7 @@ h1, h2, h3, h4 {
   font-weight: 700;
   color: #172b4d;
   letter-spacing: -0.02em;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .pricing__tier-price small {
@@ -1452,11 +1491,27 @@ h1, h2, h3, h4 {
   color: #7a869a;
 }
 
+.pricing__tier-weekly {
+  display: block;
+  font-size: 0.75rem;
+  color: #7a869a;
+  font-style: italic;
+}
+
 .pricing__tier-desc {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #172b4d;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.pricing__tier-longdesc {
   display: block;
   font-size: 0.8125rem;
   color: #7a869a;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .pricing__tier-divider {
@@ -1756,9 +1811,23 @@ h1, h2, h3, h4 {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .pricing__sprint {
-    gap: 40px;
-    padding: 40px;
+  .pricing__hero-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .pricing__hero-features {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .pricing__hero {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing__hero-roles {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .pricing__retainer-tiers {
@@ -1946,17 +2015,12 @@ h1, h2, h3, h4 {
     font-size: 1.5rem;
   }
 
-  .pricing__sprint {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding: 32px 24px;
+  .pricing__hero-card {
+    padding: 24px 20px;
   }
 
-  .pricing__sprint-roles {
-    border-left: none;
-    padding-left: 0;
-    border-top: 1px solid #ebecf0;
-    padding-top: 32px;
+  .pricing__hero-roles {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .pricing__retainer {

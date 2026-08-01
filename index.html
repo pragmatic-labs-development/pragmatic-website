@@ -61,7 +61,7 @@
       </button>
       <ul class="nav__menu" id="nav-menu">
         <li><a href="#work" class="nav__link">What We Do</a></li>
-        <li><a href="#process" class="nav__link">How We Work</a></li>
+        <li><a href="#process" class="nav__link">How It Works</a></li>
         <li><a href="#pricing" class="nav__link">Pricing</a></li>
         <li><a href="#work" class="nav__link">Work</a></li>
         <li><a href="#about" class="nav__link">About</a></li>
@@ -81,7 +81,7 @@
         <p class="hero__subtitle reveal">We help startups and small teams turn ideas into useful products.<br>Strategy, UX/UI design, front-end engineering, marketing websites,<br>and product storytelling without the bloated agency process.</p>
         <div class="hero__ctas reveal">
           <a href="#contact" class="btn btn--primary">Talk Through Your Idea</a>
-          <a href="#process" class="btn btn--text">See How It Works &rarr;</a>
+          <a href="#process" class="btn btn--text">See How It Starts &rarr;</a>
         </div>
         <div class="hero__trust reveal">
           <div class="hero__trust-item">
@@ -209,59 +209,107 @@
   </section>
 
   <!-- ============================
-       PROCESS
+       HOW IT STARTS — 3 steps
        ============================ -->
-  <section class="process" id="process">
+  <section class="howstart" id="process">
     <div class="container">
-      <div class="process__header reveal">
-        <p class="process__eyebrow">How we work</p>
-        <h2 class="process__title">A practical path<br>from idea to impact.</h2>
+      <div class="howstart__header reveal">
+        <h2 class="howstart__title">How it starts</h2>
+        <p class="howstart__subtitle">No proposals. No SOWs. No six-week onboarding.</p>
       </div>
-      <div class="process__timeline reveal">
-        <div class="process__step">
-          <div class="process__step-marker">
-            <span class="process__step-num">1</span>
+      <div class="howstart__steps reveal">
+        <div class="howstart__step">
+          <span class="howstart__num">1</span>
+          <h3 class="howstart__step-title">Book a working session</h3>
+          <p class="howstart__step-desc">30 minutes. Tell us what you're building, where you're stuck, and what you need.</p>
+        </div>
+        <div class="howstart__connector">
+          <svg viewBox="0 0 24 12" fill="none"><path d="M0 6h20m0 0l-4-4m4 4l-4 4" stroke="#dfe1e6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="howstart__step">
+          <span class="howstart__num">2</span>
+          <h3 class="howstart__step-title">We scope the first sprint</h3>
+          <p class="howstart__step-desc">Clear deliverables, timeline, and price. You approve before anything starts.</p>
+        </div>
+        <div class="howstart__connector">
+          <svg viewBox="0 0 24 12" fill="none"><path d="M0 6h20m0 0l-4-4m4 4l-4 4" stroke="#dfe1e6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="howstart__step">
+          <span class="howstart__num">3</span>
+          <h3 class="howstart__step-title">Work starts within a week</h3>
+          <p class="howstart__step-desc">Real output, fast. You'll have something to react to before most agencies finish discovery.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       WHY NOT HIRE — Cost comparison
+       ============================ -->
+  <section class="whynothire">
+    <div class="container">
+      <div class="whynothire__inner reveal">
+        <div class="whynothire__text">
+          <h2 class="whynothire__title">Why not just hire?</h2>
+          <p class="whynothire__desc">Staffing four full-time roles costs $400&ndash;600K/year in salary alone &mdash; before benefits, recruiting, and ramp time. Most early-stage startups can't justify that.</p>
+          <p class="whynothire__desc">Pragmatic gives you senior-level coverage across all four roles, fractionally, for a fraction of one full-time hire.</p>
+        </div>
+        <div class="whynothire__compare">
+          <div class="whynothire__option whynothire__option--hire">
+            <span class="whynothire__option-label">Hiring in-house</span>
+            <span class="whynothire__option-price">$400&ndash;600K<small>/yr</small></span>
+            <ul>
+              <li>4 full-time salaries + benefits</li>
+              <li>3&ndash;6 months to recruit</li>
+              <li>Ramp-up time per role</li>
+              <li>Management overhead</li>
+            </ul>
           </div>
-          <div class="process__step-body">
-            <h3 class="process__step-title">Understand</h3>
-            <p class="process__step-desc">We pull the idea out of conversations, docs, screenshots, and founder brain-dumps.</p>
+          <div class="whynothire__option whynothire__option--pragmatic">
+            <span class="whynothire__option-label">Pragmatic</span>
+            <span class="whynothire__option-price">From $1,500<small>/mo</small></span>
+            <ul>
+              <li>All 4 roles, fractionally</li>
+              <li>Start within a week</li>
+              <li>Senior-level from day one</li>
+              <li>No long-term commitment</li>
+            </ul>
           </div>
         </div>
-        <div class="process__step">
-          <div class="process__step-marker">
-            <span class="process__step-num">2</span>
-          </div>
-          <div class="process__step-body">
-            <h3 class="process__step-title">Plan</h3>
-            <p class="process__step-desc">We define the user, workflow, scope, and success criteria. Roadmaps and tickets get created.</p>
-          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       FAQ
+       ============================ -->
+  <section class="faq">
+    <div class="container">
+      <h2 class="faq__title reveal">Common questions</h2>
+      <div class="faq__grid reveal">
+        <div class="faq__item">
+          <h3 class="faq__question">How fast can you start?</h3>
+          <p class="faq__answer">Usually within a week. We scope the first sprint together and get moving.</p>
         </div>
-        <div class="process__step">
-          <div class="process__step-marker">
-            <span class="process__step-num">3</span>
-          </div>
-          <div class="process__step-body">
-            <h3 class="process__step-title">Design</h3>
-            <p class="process__step-desc">We create clean flows, screens, websites, and prototypes that make the product easy to use.</p>
-          </div>
+        <div class="faq__item">
+          <h3 class="faq__question">What's the minimum commitment?</h3>
+          <p class="faq__answer">One sprint. No retainers, no long-term contracts. If it works, we keep going.</p>
         </div>
-        <div class="process__step">
-          <div class="process__step-marker">
-            <span class="process__step-num">4</span>
-          </div>
-          <div class="process__step-body">
-            <h3 class="process__step-title">Build / Prototype</h3>
-            <p class="process__step-desc">We build the front-end, wire it up, and make a working version you can test, demo, or ship.</p>
-          </div>
+        <div class="faq__item">
+          <h3 class="faq__question">Do you work in our tools?</h3>
+          <p class="faq__answer">Yes. Jira, Linear, Figma, Notion, Slack, GitHub &mdash; whatever your team already uses.</p>
         </div>
-        <div class="process__step">
-          <div class="process__step-marker">
-            <span class="process__step-num">5</span>
-          </div>
-          <div class="process__step-body">
-            <h3 class="process__step-title">Package the Story</h3>
-            <p class="process__step-desc">We turn the product into a clear, compelling story for customers, investors, or your team.</p>
-          </div>
+        <div class="faq__item">
+          <h3 class="faq__question">Can we start with just one role?</h3>
+          <p class="faq__answer">Absolutely. Most clients start with one sprint and expand from there.</p>
+        </div>
+        <div class="faq__item">
+          <h3 class="faq__question">Do you replace our team?</h3>
+          <p class="faq__answer">No. We fill the gaps your team doesn't cover yet. We work alongside your engineers, not instead of them.</p>
+        </div>
+        <div class="faq__item">
+          <h3 class="faq__question">What if we eventually hire for these roles?</h3>
+          <p class="faq__answer">That's the goal. We help you move fast now and hand off cleanly when you're ready to build the team in-house.</p>
         </div>
       </div>
     </div>
@@ -443,7 +491,7 @@
         </div>
         <div class="footer__nav">
           <a href="#work">What We Do</a>
-          <a href="#process">How We Work</a>
+          <a href="#process">How It Works</a>
           <a href="#pricing">Pricing</a>
           <a href="#about">About</a>
           <a href="#contact">Contact</a>

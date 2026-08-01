@@ -636,94 +636,233 @@ h1, h2, h3, h4 {
 .postit--green  { background-color: #e3fcef; }
 
 /* ===========================
-   Process — Vertical Timeline
+   How It Starts — 3 steps
    =========================== */
 
-.process {
+.howstart {
   padding: 88px 0;
   background-color: #fff;
 }
 
-.process__header {
+.howstart__header {
+  text-align: center;
   margin-bottom: 56px;
 }
 
-.process__eyebrow {
-  font-size: 0.8125rem;
-  font-weight: 600;
+.howstart__title {
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.howstart__subtitle {
+  font-size: 0.9375rem;
+  color: #505f79;
+}
+
+.howstart__steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.howstart__step {
+  flex: 1;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.howstart__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #0052cc;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.howstart__step-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #172b4d;
+}
+
+.howstart__step-desc {
+  font-size: 0.875rem;
+  color: #505f79;
+  line-height: 1.6;
+}
+
+.howstart__connector {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  color: #dfe1e6;
+}
+
+.howstart__connector svg {
+  width: 40px;
+  height: 16px;
+}
+
+/* ===========================
+   Why Not Hire — Cost comparison
+   =========================== */
+
+.whynothire {
+  padding: 80px 0;
+  background-color: #f4f5f7;
+  border-top: 1px solid #dfe1e6;
+  border-bottom: 1px solid #dfe1e6;
+}
+
+.whynothire__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.whynothire__title {
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.whynothire__desc {
+  font-size: 1rem;
+  color: #505f79;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.whynothire__desc:last-child {
+  margin-bottom: 0;
+}
+
+.whynothire__compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.whynothire__option {
+  background: #fff;
+  border: 1px solid #dfe1e6;
+  border-radius: 10px;
+  padding: 28px 24px;
+}
+
+.whynothire__option--pragmatic {
+  border-color: #0052cc;
+  background: linear-gradient(180deg, #f0f4ff 0%, #fff 100%);
+}
+
+.whynothire__option-label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #7a869a;
   margin-bottom: 8px;
 }
 
-.process__title {
-  font-size: 2rem;
+.whynothire__option--pragmatic .whynothire__option-label {
+  color: #0052cc;
+}
+
+.whynothire__option-price {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #172b4d;
+  margin-bottom: 20px;
   letter-spacing: -0.02em;
 }
 
-/* Timeline container */
-.process__timeline {
-  position: relative;
-  max-width: 640px;
+.whynothire__option-price small {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #7a869a;
 }
 
-/* Vertical line running down the left */
-.process__timeline::before {
+.whynothire__option ul {
+  border-top: 1px solid #ebecf0;
+  padding-top: 16px;
+}
+
+.whynothire__option ul li {
+  font-size: 0.8125rem;
+  color: #505f79;
+  padding: 4px 0 4px 20px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.whynothire__option ul li::before {
   content: '';
   position: absolute;
-  left: 13px;
-  top: 28px;
-  bottom: 28px;
-  width: 2px;
-  background-color: #dfe1e6;
-}
-
-.process__step {
-  display: flex;
-  align-items: flex-start;
-  gap: 24px;
-  padding: 0 0 40px 0;
-  position: relative;
-}
-
-.process__step:last-child {
-  padding-bottom: 0;
-}
-
-/* Numbered circle marker */
-.process__step-marker {
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-}
-
-.process__step-num {
-  width: 28px;
-  height: 28px;
+  left: 0;
+  top: 11px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background-color: #0052cc;
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-/* Step content */
-.process__step-body {
-  padding-top: 3px;
+.whynothire__option--hire ul li::before {
+  background-color: #ff5630;
+  opacity: 0.4;
 }
 
-.process__step-title {
-  font-size: 1.0625rem;
+.whynothire__option--pragmatic ul li::before {
+  background-color: #36b37e;
+}
+
+/* ===========================
+   FAQ
+   =========================== */
+
+.faq {
+  padding: 80px 0;
+  background-color: #fff;
+}
+
+.faq__title {
+  font-size: 1.75rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 40px;
+}
+
+.faq__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 48px;
+}
+
+.faq__item {
+  border-bottom: 1px solid #ebecf0;
+  padding-bottom: 24px;
+}
+
+.faq__question {
+  font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: #172b4d;
 }
 
-.process__step-desc {
+.faq__answer {
   font-size: 0.9rem;
   color: #505f79;
   line-height: 1.65;
@@ -1222,7 +1361,9 @@ h1, h2, h3, h4 {
 
   /* Sections padding */
   .whatwemake,
-  .process,
+  .howstart,
+  .whynothire,
+  .faq,
   .pricing,
   .about {
     padding: 64px 0;
@@ -1242,14 +1383,36 @@ h1, h2, h3, h4 {
     gap: 10px;
   }
 
-  /* Process */
-  .process__title {
+  /* How it starts */
+  .howstart__steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .howstart__step {
+    max-width: 360px;
+  }
+
+  .howstart__connector {
+    transform: rotate(90deg);
+    padding-top: 0;
+  }
+
+  /* Why not hire */
+  .whynothire__inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .whynothire__title {
     font-size: 1.5rem;
   }
 
-  .process__step {
-    gap: 16px;
-    padding-bottom: 32px;
+  /* FAQ */
+  .faq__grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 
   /* Pricing */

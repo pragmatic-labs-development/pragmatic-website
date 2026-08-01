@@ -82,3 +82,52 @@
 
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
+
+// Retainer capacity selector — pills and tier cards share one selection state
+(function () {
+  var pills = document.querySelectorAll('.pricing__pill');
+  var tiers = document.querySelectorAll('.pricing__tier');
+
+  if (!pills.length || !tiers.length) return;
+
+  function selectHours(hours) {
+    pills.forEach(function (pill) {
+      var isMatch = pill.getAttribute('data-hours') === hours;
+      pill.setAttribute('aria-checked', isMatch ? 'true' : 'false');
+      pill.setAttribute('tabindex', isMatch ? '0' : '-1');
+    });
+
+    tiers.forEach(function (tier) {
+      var isMatch = tier.getAttribute('data-hours') === hours;
+      tier.setAttribute('aria-pressed', isMatch ? 'true' : 'false');
+    });
+  }
+
+  pills.forEach(function (pill, index) {
+    pill.addEventListener('click', function () {
+      selectHours(pill.getAttribute('data-hours'));
+    });
+
+    // Roving-tabindex arrow key navigation per the ARIA radiogroup pattern
+    pill.addEventListener('keydown', function (e) {
+      var nextIndex;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        nextIndex = (index + 1) % pills.length;
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        nextIndex = (index - 1 + pills.length) % pills.length;
+      } else {
+        return;
+      }
+      e.preventDefault();
+      var nextPill = pills[nextIndex];
+      selectHours(nextPill.getAttribute('data-hours'));
+      nextPill.focus();
+    });
+  });
+
+  tiers.forEach(function (tier) {
+    tier.addEventListener('click', function () {
+      selectHours(tier.getAttribute('data-hours'));
+    });
+  });
+})();

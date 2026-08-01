@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pragmatic-labs-development.github.io/pragmatic-website/sitemap.xml

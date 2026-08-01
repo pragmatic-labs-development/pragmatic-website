@@ -1181,16 +1181,31 @@ h1, h2, h3, h4 {
 
 .pricing__hero-roles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   gap: 16px;
 }
 
 .pricing__hero-role {
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border: 1px solid #dfe1e6;
+  border-top: 3px solid transparent;
   border-radius: 14px;
   padding: 24px 20px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
+
+.pricing__hero-role:hover {
+  box-shadow: 0 10px 24px rgba(9, 30, 66, 0.1);
+  transform: translateY(-3px);
+}
+
+.pricing__hero-role--green  { border-top-color: #36b37e; }
+.pricing__hero-role--purple { border-top-color: #6554c0; }
+.pricing__hero-role--blue   { border-top-color: #0052cc; }
+.pricing__hero-role--orange { border-top-color: #ff8b00; }
+.pricing__hero-role--gray   { border-top-color: #7a869a; }
 
 .pricing__hero-role-icon {
   width: 44px;
@@ -1224,6 +1239,29 @@ h1, h2, h3, h4 {
   font-size: 0.8125rem;
   color: #7a869a;
   line-height: 1.5;
+}
+
+.pricing__hero-role-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #ebecf0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #7a869a;
+}
+
+.pricing__hero-role-footer svg {
+  width: 14px;
+  height: 14px;
+  padding: 3px;
+  box-sizing: content-box;
+  border-radius: 50%;
+  background: #f1f2f5;
+  color: #7a869a;
+  flex-shrink: 0;
 }
 
 /* --- Retainer block --- */

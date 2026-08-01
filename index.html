@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pragmatic Labs — Building Practical Software</title>
-  <meta name="description" content="Pragmatic Labs is an AI-forward agency providing front-end development, product management, and product marketing for startups.">
+  <title>Pragmatic &mdash; Product, Design, and Decks for Startups Moving Fast</title>
+  <meta name="description" content="Pragmatic helps founders and small teams turn messy ideas into clear product strategy, polished interfaces, working prototypes, and stories people actually understand.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
   <!-- Navigation -->
   <nav class="nav" id="nav">
     <div class="nav__container">
-      <a href="#" class="nav__logo">Pragmatic Labs</a>
+      <a href="#" class="nav__logo">Pragmatic</a>
       <button class="nav__toggle" id="nav-toggle" aria-label="Toggle navigation">
         <span class="nav__toggle-bar"></span>
         <span class="nav__toggle-bar"></span>
@@ -23,120 +23,407 @@
       </button>
       <ul class="nav__menu" id="nav-menu">
         <li><a href="#services" class="nav__link">Services</a></li>
-        <li><a href="#about" class="nav__link">About</a></li>
-        <li><a href="#portfolio" class="nav__link">Portfolio</a></li>
-        <li><a href="#contact" class="nav__link nav__link--cta">Get in Touch</a></li>
+        <li><a href="#projects" class="nav__link">Best Fit</a></li>
+        <li><a href="#process" class="nav__link">Process</a></li>
+        <li><a href="#sprints" class="nav__link">Sprints</a></li>
+        <li><a href="#contact" class="nav__link nav__link--cta">Book a Working Session</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- ============================
+       HERO
+       ============================ -->
   <section class="hero" id="hero">
     <div class="container">
-      <h1 class="hero__title">Building Practical Software</h1>
-      <p class="hero__subtitle">Your front-end, product, and marketing partner. We help startups ship polished products by filling the gaps your backend team can't cover.</p>
-      <a href="#contact" class="btn btn--primary">Get in Touch</a>
+      <div class="hero__label reveal">Product Studio</div>
+      <h1 class="hero__title reveal">Product, design, and decks for startups moving fast.</h1>
+      <p class="hero__subtitle reveal">Pragmatic helps founders and small teams turn messy ideas into clear strategy, polished interfaces, working prototypes, and stories people actually understand.</p>
+      <div class="hero__ctas reveal">
+        <a href="#contact" class="btn btn--primary">Book a Working Session</a>
+        <a href="#services" class="btn btn--ghost">See What We Do</a>
+      </div>
+      <div class="hero__trust reveal">
+        <span>Product management</span>
+        <span class="hero__trust-dot"></span>
+        <span>UX/UI design</span>
+        <span class="hero__trust-dot"></span>
+        <span>AI-assisted prototyping</span>
+        <span class="hero__trust-dot"></span>
+        <span>Pitch &amp; sales decks</span>
+      </div>
     </div>
   </section>
 
-  <!-- Services Section -->
+  <!-- ============================
+       PROBLEM
+       ============================ -->
+  <section class="problem" id="problem">
+    <div class="container">
+      <p class="section__eyebrow reveal">The real problem</p>
+      <h2 class="section__title section__title--large reveal">Most teams don't need "more software."<br>They need clarity.</h2>
+      <p class="section__lede reveal">Startups usually don't fail because nobody can write code. They struggle because the idea is trapped in someone's head, the UX is unclear, the roadmap is fuzzy, or the story is too complicated to sell.</p>
+      <div class="problem__grid">
+        <div class="problem__card reveal">
+          <span class="problem__number">01</span>
+          <h3 class="problem__heading">The idea is fuzzy</h3>
+          <p class="problem__text">"Our CEO has 47 ideas, but none of them are scoped."</p>
+        </div>
+        <div class="problem__card reveal">
+          <span class="problem__number">02</span>
+          <h3 class="problem__heading">The workflow is messy</h3>
+          <p class="problem__text">"We know it's broken, but we don't know what software to build."</p>
+        </div>
+        <div class="problem__card reveal">
+          <span class="problem__number">03</span>
+          <h3 class="problem__heading">The product feels rough</h3>
+          <p class="problem__text">"Our app technically works, but the UX makes people squint."</p>
+        </div>
+        <div class="problem__card reveal">
+          <span class="problem__number">04</span>
+          <h3 class="problem__heading">The story is hard to explain</h3>
+          <p class="problem__text">"We need slides that explain what we do without losing everyone."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       SERVICES
+       ============================ -->
   <section class="services" id="services">
     <div class="container">
-      <h2 class="section__title">What We Do</h2>
-      <p class="section__subtitle">We embed with your team to deliver the expertise you need.</p>
+      <p class="section__eyebrow reveal">What we do</p>
+      <h2 class="section__title section__title--large reveal">One studio. Four useful modes.</h2>
+      <p class="section__lede reveal">Useful help, exactly where early teams get stuck.</p>
       <div class="services__grid">
-        <div class="card">
-          <div class="card__icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="16 18 22 12 16 6"></polyline>
-              <polyline points="8 6 2 12 8 18"></polyline>
-            </svg>
-          </div>
-          <h3 class="card__title">Front-End Code & Design</h3>
-          <p class="card__text">UI/UX implementation, responsive design, and component systems. We turn designs into production-ready interfaces that users love.</p>
+        <div class="service-card reveal">
+          <span class="service-card__number">01</span>
+          <h3 class="service-card__title">Product Strategy</h3>
+          <p class="service-card__subtitle">Turn vision into structure.</p>
+          <p class="service-card__desc">For teams with big ideas and no clean path forward. We turn scattered conversations, founder intuition, customer pain, and internal workflow chaos into clear product direction.</p>
+          <ul class="service-card__list">
+            <li>Roadmaps &amp; PRDs</li>
+            <li>Epics &amp; user flows</li>
+            <li>MVP scope &amp; priorities</li>
+            <li>Competitive analysis</li>
+            <li>Founder idea extraction</li>
+          </ul>
         </div>
-        <div class="card">
-          <div class="card__icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-            </svg>
-          </div>
-          <h3 class="card__title">Product Management</h3>
-          <p class="card__text">Roadmapping, prioritization, sprint planning, and stakeholder alignment. We bring structure so your team ships the right things, fast.</p>
+        <div class="service-card reveal">
+          <span class="service-card__number">02</span>
+          <h3 class="service-card__title">UX/UI Design</h3>
+          <p class="service-card__subtitle">Make the product feel real.</p>
+          <p class="service-card__desc">Clean, modern product design for teams that need credibility fast. From rough workflows to polished interfaces, we help software feel simpler, sharper, and easier to trust.</p>
+          <ul class="service-card__list">
+            <li>App &amp; dashboard design</li>
+            <li>Clickable prototypes</li>
+            <li>Design systems</li>
+            <li>Mobile &amp; responsive</li>
+            <li>Design critique &amp; cleanup</li>
+          </ul>
         </div>
-        <div class="card">
-          <div class="card__icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-            </svg>
-          </div>
-          <h3 class="card__title">Product Marketing</h3>
-          <p class="card__text">Go-to-market strategy, positioning, launch campaigns, and messaging. We help you find your audience and tell a compelling story.</p>
+        <div class="service-card reveal">
+          <span class="service-card__number">03</span>
+          <h3 class="service-card__title">AI-Assisted Builds</h3>
+          <p class="service-card__subtitle">Build the first useful version faster.</p>
+          <p class="service-card__desc">We use modern AI-assisted development tools to move from idea to working prototype faster &mdash; without pretending speed replaces taste, judgment, or product thinking.</p>
+          <ul class="service-card__list">
+            <li>Rapid front-end development</li>
+            <li>Landing pages &amp; MVPs</li>
+            <li>Internal tools</li>
+            <li>Prototype-to-product execution</li>
+            <li>Human-led, AI-accelerated</li>
+          </ul>
+        </div>
+        <div class="service-card reveal">
+          <span class="service-card__number">04</span>
+          <h3 class="service-card__title">Story &amp; Decks</h3>
+          <p class="service-card__subtitle">Explain the thing clearly.</p>
+          <p class="service-card__desc">Some products fail because the idea is weak. Many fail because nobody can explain them. We help turn dense concepts into clear, visual stories people can understand quickly.</p>
+          <ul class="service-card__list">
+            <li>Investor &amp; sales decks</li>
+            <li>Product vision decks</li>
+            <li>Demo narratives</li>
+            <li>One-pagers</li>
+            <li>Visual storytelling</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section class="about" id="about">
+  <!-- ============================
+       BEST-FIT PROJECTS
+       ============================ -->
+  <section class="projects" id="projects">
     <div class="container">
-      <h2 class="section__title">About Us</h2>
-      <div class="about__content">
-        <p>Pragmatic Labs is an AI-forward agency built for startups that move fast. We know the story: your team has strong backend engineers, but you need help with the front-end, product strategy, and go-to-market.</p>
-        <p>We embed directly with your team as a seamless extension, bringing the product management, front-end development, and marketing expertise that rounds out your organization. No bloated retainers. No waterfall decks. Just practical, shipping-focused work.</p>
-        <p>We leverage modern AI tools throughout our workflow, not as a gimmick, but because it lets a small, focused team deliver outsized results.</p>
+      <p class="section__eyebrow reveal">Best fit</p>
+      <h2 class="section__title section__title--large reveal">Built for the weird middle.</h2>
+      <p class="section__lede reveal">Pragmatic is for teams that are too serious for a cheap template, too early for a full agency, and too busy to assemble a product team from scratch.</p>
+      <div class="projects__grid">
+        <div class="project-quote reveal">"We need to redesign our app."</div>
+        <div class="project-quote reveal">"We need to turn the CEO's ideas into tickets."</div>
+        <div class="project-quote reveal">"We need an MVP that looks real."</div>
+        <div class="project-quote reveal">"We need a deck that explains this clearly."</div>
+        <div class="project-quote reveal">"We need product help, but not a full-time PM yet."</div>
+        <div class="project-quote reveal">"We need to show customers something next week."</div>
       </div>
     </div>
   </section>
 
-  <!-- Portfolio Section -->
-  <section class="portfolio" id="portfolio">
+  <!-- ============================
+       PROCESS
+       ============================ -->
+  <section class="process" id="process">
     <div class="container">
-      <h2 class="section__title">Our Products</h2>
-      <p class="section__subtitle">Software we've built and launched.</p>
-      <div class="portfolio__grid">
-        <div class="card">
-          <h3 class="card__title">Nudgy</h3>
-          <p class="card__text">A smart habit-tracking app that uses gentle nudges to help you build better routines, one day at a time.</p>
-          <a href="https://nudgy.app" target="_blank" rel="noopener noreferrer" class="card__link">Learn more &rarr;</a>
+      <p class="section__eyebrow reveal">How we work</p>
+      <h2 class="section__title section__title--large reveal">From fog to forward motion.</h2>
+      <p class="section__lede reveal">A practical path from messy to shipped.</p>
+      <div class="process__steps">
+        <div class="process__step reveal">
+          <div class="process__step-num">01</div>
+          <div class="process__step-content">
+            <h3 class="process__step-title">Extract</h3>
+            <p class="process__step-desc">We pull the idea out of conversations, docs, screenshots, demos, and founder brain-dumps.</p>
+          </div>
         </div>
-        <div class="card">
-          <h3 class="card__title">Envisor</h3>
-          <p class="card__text">A visualization and planning tool that helps teams see the bigger picture and align on what matters most.</p>
-          <a href="#" class="card__link">Coming soon &rarr;</a>
+        <div class="process__step reveal">
+          <div class="process__step-num">02</div>
+          <div class="process__step-content">
+            <h3 class="process__step-title">Shape</h3>
+            <p class="process__step-desc">We define the user, workflow, product scope, and success criteria.</p>
+          </div>
+        </div>
+        <div class="process__step reveal">
+          <div class="process__step-num">03</div>
+          <div class="process__step-content">
+            <h3 class="process__step-title">Design</h3>
+            <p class="process__step-desc">We create clean screens, flows, prototypes, or visual systems.</p>
+          </div>
+        </div>
+        <div class="process__step reveal">
+          <div class="process__step-num">04</div>
+          <div class="process__step-content">
+            <h3 class="process__step-title">Build or Brief</h3>
+            <p class="process__step-desc">We either prototype and build directly, or hand off clean specs, tickets, and assets.</p>
+          </div>
+        </div>
+        <div class="process__step reveal">
+          <div class="process__step-num">05</div>
+          <div class="process__step-content">
+            <h3 class="process__step-title">Tell the Story</h3>
+            <p class="process__step-desc">We package the work into decks, demos, or one-pagers that make the value obvious.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact / Footer -->
+  <!-- ============================
+       CASE STUDIES (placeholder)
+       ============================ -->
+  <section class="cases" id="cases">
+    <div class="container">
+      <p class="section__eyebrow reveal">Work</p>
+      <h2 class="section__title section__title--large reveal">From messy to shipped.</h2>
+      <div class="cases__grid">
+        <div class="case-card reveal">
+          <div class="case-card__type">Product Redesign</div>
+          <h3 class="case-card__title">Confusing workflow &rarr; simplified dashboard</h3>
+          <div class="case-card__details">
+            <div class="case-card__detail">
+              <span class="case-card__label">Challenge</span>
+              <p>Users were dropping off mid-workflow. The existing UI had grown organically with no design system.</p>
+            </div>
+            <div class="case-card__detail">
+              <span class="case-card__label">Deliverables</span>
+              <p>UX audit, redesigned screens, product brief, design system foundations</p>
+            </div>
+          </div>
+        </div>
+        <div class="case-card reveal">
+          <div class="case-card__type">Founder &rarr; Roadmap</div>
+          <h3 class="case-card__title">Scattered CEO vision &rarr; buildable plan</h3>
+          <div class="case-card__details">
+            <div class="case-card__detail">
+              <span class="case-card__label">Challenge</span>
+              <p>Founder had strong intuition but no structured product plan. Engineering team needed tickets, not vibes.</p>
+            </div>
+            <div class="case-card__detail">
+              <span class="case-card__label">Deliverables</span>
+              <p>PRD, Jira-ready backlog, user flows, MVP scope, product strategy</p>
+            </div>
+          </div>
+        </div>
+        <div class="case-card reveal">
+          <div class="case-card__type">Pitch Deck</div>
+          <h3 class="case-card__title">Dense explanation &rarr; clean narrative deck</h3>
+          <div class="case-card__details">
+            <div class="case-card__detail">
+              <span class="case-card__label">Challenge</span>
+              <p>Complex product needed a 12-slide story that investors could follow without a 30-minute walkthrough.</p>
+            </div>
+            <div class="case-card__detail">
+              <span class="case-card__label">Deliverables</span>
+              <p>Investor deck, visual diagrams, messaging framework, demo narrative</p>
+            </div>
+          </div>
+        </div>
+        <div class="case-card reveal">
+          <div class="case-card__type">Rapid Prototype</div>
+          <h3 class="case-card__title">Idea only &rarr; clickable working demo</h3>
+          <div class="case-card__details">
+            <div class="case-card__detail">
+              <span class="case-card__label">Challenge</span>
+              <p>Team needed a working demo to test with customers and show to advisors &mdash; in days, not months.</p>
+            </div>
+            <div class="case-card__detail">
+              <span class="case-card__label">Deliverables</span>
+              <p>Landing page, app prototype, demo flow, deployment, handoff notes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       WHY PRAGMATIC
+       ============================ -->
+  <section class="why" id="why">
+    <div class="container">
+      <p class="section__eyebrow reveal">Why us</p>
+      <h2 class="section__title section__title--large reveal">Senior product taste without the agency theater.</h2>
+      <p class="section__lede reveal">Pragmatic is intentionally small. You're not buying a bloated team, a mysterious process, or six weeks of discovery theater. You're getting senior product thinking, sharp design taste, modern AI-assisted execution, and useful deliverables &mdash; fast.</p>
+      <div class="why__grid">
+        <div class="why__point reveal">
+          <h4 class="why__point-title">Founder/operator mindset</h4>
+          <p class="why__point-desc">We've been on the inside. We think like owners, not vendors.</p>
+        </div>
+        <div class="why__point reveal">
+          <h4 class="why__point-title">Product &amp; design in one brain</h4>
+          <p class="why__point-desc">Strategy, UX, and visual design without handoff friction.</p>
+        </div>
+        <div class="why__point reveal">
+          <h4 class="why__point-title">AI-forward, human-led</h4>
+          <p class="why__point-desc">Modern tools, real judgment. Speed without cutting corners on taste.</p>
+        </div>
+        <div class="why__point reveal">
+          <h4 class="why__point-title">Fast first drafts</h4>
+          <p class="why__point-desc">Something to react to quickly, instead of weeks of silence.</p>
+        </div>
+        <div class="why__point reveal">
+          <h4 class="why__point-title">Practical deliverables</h4>
+          <p class="why__point-desc">Screens, tickets, decks, prototypes. Things you can actually use.</p>
+        </div>
+        <div class="why__point reveal">
+          <h4 class="why__point-title">No bloated process</h4>
+          <p class="why__point-desc">Strategy and execution together. No discovery theater.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       ENGAGEMENT MODELS / SPRINTS
+       ============================ -->
+  <section class="sprints" id="sprints">
+    <div class="container">
+      <p class="section__eyebrow reveal">Engagement models</p>
+      <h2 class="section__title section__title--large reveal">Pick a sprint. Ship something real.</h2>
+      <p class="section__lede reveal">Structured engagements designed to be easy to buy and fast to start.</p>
+      <div class="sprints__grid">
+        <div class="sprint-card reveal">
+          <div class="sprint-card__badge">Sprint</div>
+          <h3 class="sprint-card__title">Product Clarity</h3>
+          <p class="sprint-card__subtitle">For teams with messy ideas.</p>
+          <ul class="sprint-card__list">
+            <li>Product brief</li>
+            <li>User flow</li>
+            <li>MVP scope</li>
+            <li>Feature priorities</li>
+            <li>Roadmap</li>
+            <li>Next-step recommendations</li>
+          </ul>
+          <a href="#contact" class="sprint-card__cta">Start this sprint &rarr;</a>
+        </div>
+        <div class="sprint-card reveal">
+          <div class="sprint-card__badge">Sprint</div>
+          <h3 class="sprint-card__title">Design</h3>
+          <p class="sprint-card__subtitle">For teams that need screens.</p>
+          <ul class="sprint-card__list">
+            <li>UX audit</li>
+            <li>Key flows</li>
+            <li>High-fidelity UI</li>
+            <li>Prototype</li>
+            <li>Design notes</li>
+          </ul>
+          <a href="#contact" class="sprint-card__cta">Start this sprint &rarr;</a>
+        </div>
+        <div class="sprint-card reveal">
+          <div class="sprint-card__badge">Sprint</div>
+          <h3 class="sprint-card__title">Prototype</h3>
+          <p class="sprint-card__subtitle">For teams that need a working demo.</p>
+          <ul class="sprint-card__list">
+            <li>Landing page or app prototype</li>
+            <li>Front-end build</li>
+            <li>Demo flow</li>
+            <li>Deployment support</li>
+            <li>Handoff notes</li>
+          </ul>
+          <a href="#contact" class="sprint-card__cta">Start this sprint &rarr;</a>
+        </div>
+        <div class="sprint-card reveal">
+          <div class="sprint-card__badge">Sprint</div>
+          <h3 class="sprint-card__title">Story &amp; Deck</h3>
+          <p class="sprint-card__subtitle">For teams that need a deck.</p>
+          <ul class="sprint-card__list">
+            <li>Narrative structure</li>
+            <li>Slide design</li>
+            <li>Messaging polish</li>
+            <li>Visual diagrams</li>
+            <li>Investor/sales-ready deck</li>
+          </ul>
+          <a href="#contact" class="sprint-card__cta">Start this sprint &rarr;</a>
+        </div>
+        <div class="sprint-card sprint-card--featured reveal">
+          <div class="sprint-card__badge sprint-card__badge--accent">Ongoing</div>
+          <h3 class="sprint-card__title">Fractional Product Studio</h3>
+          <p class="sprint-card__subtitle">For ongoing support.</p>
+          <ul class="sprint-card__list">
+            <li>Weekly product/design support</li>
+            <li>Roadmap management</li>
+            <li>Ticket writing</li>
+            <li>UX cleanup</li>
+            <li>Decks &amp; demos</li>
+            <li>Prototype support</li>
+          </ul>
+          <a href="#contact" class="sprint-card__cta">Let's talk &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       CONTACT / FOOTER
+       ============================ -->
   <footer class="footer" id="contact">
     <div class="container">
-      <h2 class="section__title">Get in Touch</h2>
-      <p class="section__subtitle">Ready to ship something great? Let's talk.</p>
-      <div class="footer__content">
-        <form class="contact-form" id="contact-form">
-          <div class="contact-form__group">
-            <label for="name" class="contact-form__label">Name</label>
-            <input type="text" id="name" name="name" class="contact-form__input" required>
-          </div>
-          <div class="contact-form__group">
-            <label for="email" class="contact-form__label">Email</label>
-            <input type="email" id="email" name="email" class="contact-form__input" required>
-          </div>
-          <div class="contact-form__group">
-            <label for="message" class="contact-form__label">Message</label>
-            <textarea id="message" name="message" rows="5" class="contact-form__input contact-form__textarea" required></textarea>
-          </div>
-          <button type="submit" class="btn btn--primary">Send Message</button>
-        </form>
-        <div class="footer__info">
-          <div class="footer__links">
-            <a href="https://github.com/pragmatic-labs-development" target="_blank" rel="noopener noreferrer">GitHub</a>
-          </div>
-          <p class="footer__copyright">&copy; 2025 Pragmatic Labs. All rights reserved.</p>
+      <div class="footer__top">
+        <div class="footer__cta-block reveal">
+          <h2 class="footer__title">Bring the messy version.<br>We'll help make it useful.</h2>
+          <p class="footer__subtitle">Half product manager, half designer, half deck goblin. Yes, the math is suspicious.</p>
+          <a href="mailto:hello@pragmaticlabs.dev" class="btn btn--primary btn--large">Book a Working Session</a>
+          <p class="footer__alt-cta">Or email us directly: <a href="mailto:hello@pragmaticlabs.dev">hello@pragmaticlabs.dev</a></p>
         </div>
+      </div>
+      <div class="footer__bottom">
+        <a href="#" class="footer__logo">Pragmatic</a>
+        <div class="footer__links">
+          <a href="https://github.com/pragmatic-labs-development" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+        <p class="footer__copyright">&copy; 2025 Pragmatic Labs. All rights reserved.</p>
       </div>
     </div>
   </footer>

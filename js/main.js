@@ -1,7 +1,7 @@
 // Mobile navigation toggle
 (function () {
-  const toggle = document.getElementById('nav-toggle');
-  const menu = document.getElementById('nav-menu');
+  var toggle = document.getElementById('nav-toggle');
+  var menu = document.getElementById('nav-menu');
 
   toggle.addEventListener('click', function () {
     toggle.classList.toggle('is-active');
@@ -9,12 +9,13 @@
   });
 
   // Close menu when a nav link is clicked
-  menu.querySelectorAll('.nav__link').forEach(function (link) {
-    link.addEventListener('click', function () {
+  var links = menu.querySelectorAll('.nav__link');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function () {
       toggle.classList.remove('is-active');
       menu.classList.remove('is-open');
     });
-  });
+  }
 
   // Close menu when clicking outside
   document.addEventListener('click', function (e) {
@@ -25,30 +26,59 @@
   });
 })();
 
-// Contact form handling
+// Scroll reveal with IntersectionObserver
 (function () {
-  var form = document.getElementById('contact-form');
-  if (!form) return;
+  var reveals = document.querySelectorAll('.reveal');
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    var name = form.querySelector('#name').value;
-    var email = form.querySelector('#email').value;
-    var message = form.querySelector('#message').value;
-
-    // Build mailto link as a fallback
-    var subject = encodeURIComponent('Contact from ' + name);
-    var body = encodeURIComponent(
-      'Name: ' + name + '\nEmail: ' + email + '\n\n' + message
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      }
     );
-    window.location.href = 'mailto:hello@pragmaticlabs.dev?subject=' + subject + '&body=' + body;
 
-    // Show success message
-    form.innerHTML =
-      '<div class="contact-form__success">' +
-      '<strong>Thanks for reaching out!</strong>' +
-      'Your email client should open with the message. If it doesn\'t, email us at hello@pragmaticlabs.dev.' +
-      '</div>';
-  });
+    reveals.forEach(function (el) {
+      observer.observe(el);
+    });
+  } else {
+    // Fallback: just show everything
+    reveals.forEach(function (el) {
+      el.classList.add('is-visible');
+    });
+  }
+})();
+
+// Active nav link highlighting on scroll
+(function () {
+  var sections = document.querySelectorAll('section[id], footer[id]');
+  var navLinks = document.querySelectorAll('.nav__link:not(.nav__link--cta)');
+
+  function onScroll() {
+    var scrollPos = window.scrollY + 120;
+    var current = '';
+
+    sections.forEach(function (section) {
+      if (section.offsetTop <= scrollPos) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(function (link) {
+      link.style.color = '';
+      if (link.getAttribute('href') === '#' + current) {
+        link.style.color = '#2563eb';
+      }
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
 })();

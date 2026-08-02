@@ -49,118 +49,101 @@ Use a hard refresh (cmd+shift+R) or append a cache-busting query string
 
 ## What changed this session
 
-### 1. Device showcase section (carried over from last session's open item)
+### 1. Combos section removed for good
 
-Ported the old site's `.grey-section` (segmented control that swaps between
-Web App / Mobile App / Marketing Website mockups) into a new `.showcase`
-section, placed right after Capabilities. Source was
-`/Users/dave/Downloads/index (20).html` (HTML ~line 2192, CSS ~line 726).
+Last session's open item — "confusing, revisit later" — got resolved this
+session: Dave chose to cut it outright rather than rework or replace it.
+Removed the commented-out `<section class="combos" id="work">` block from
+`index.html`, its full CSS block (`.combos*` rules, including the
+`prefers-reduced-motion` override), and the two stale `.combos__grid`
+references left in the 1024px/768px responsive blocks. Nothing else
+referenced `.combos` anywhere (confirmed via grep across html/css/js), so
+this was a clean removal with no follow-on breakage.
 
-- Panel switching is **pure CSS** — no JS — using `:has()`
-  (`.showcase__control:has(#showcase-webapp:checked) ~ .showcase__stage
-  .showcase__panel--webapp`, etc.), unlike the old site's JS-driven toggle.
-- Added responsive scaling the old site never had: `.showcase__panel` uses
-  `transform: translate(-50%,-50%) scale(...)` at the existing 1024px and
-  768px breakpoints (same technique as the hero mockup), so the 640px-wide
-  laptop mockup scales down instead of overflowing on small screens.
-- Confirmed working at 1140px, ~900px, and via the ≤768px mobile CSS bucket
-  (a hard floor in this environment's browser-automation tooling prevented
-  literally hitting 390px viewport width, but the math checks out — the
-  laptop renders at 320px wide at the 0.5 mobile scale factor, well under
-  the ~350px available at 390px viewport width).
+### 2. "Work Across Industries" — converted to a horizontal carousel
 
-### 2. Final CTA section restyled to blue (Dave supplied a reference screenshot)
+Dave wanted the case-studies section to scroll horizontally instead of
+stacking vertically, starting with Mobile Banking App on the left and
+Healthcare peeking off the right edge. Recommended and built **CSS
+scroll-snap** over an auto-advancing carousel (native momentum scroll,
+no timers/pause-on-hover complexity, works with only 3 cards) — Dave
+confirmed this approach before implementation.
 
-`.cta-section` (the "Ready to turn the conversation into something useful?"
-block just above the footer) changed from a flat dark-navy background to
-the old site's blue gradient treatment: `linear-gradient(135deg,
-var(--brand-blue) 0%, var(--brand-blue-dark) 50%, #1d4ed8 100%)`, plus two
-radial-gradient background orbs, a bolder/larger title (now wraps to three
-balanced lines instead of two — removed the old hardcoded `<br>`), and the
-primary button's text recolored to `var(--brand-blue)` to read against the
-white button on the new blue background.
+- `.work__list` is now `display: flex; overflow-x: auto; scroll-snap-type:
+  x mandatory` (scrollbar hidden cross-browser) instead of a vertical
+  stack; `.work__card` is a fixed-width flex item (`width: min(760px,
+  82vw)`, `scroll-snap-align: start`) instead of full-width.
+- Added round prev/next arrow buttons (`.work__nav-btn`) next to the
+  existing All/Mobile/Web filter tabs, wrapped together in a new
+  `.work__controls` row. JS (`js/main.js`) scrolls by one card width per
+  click, disables arrows at the scroll extremes, and resets scroll
+  position to the start whenever the category filter changes.
+- Existing filter script untouched apart from the scroll-reset addition —
+  hidden cards (`[hidden]`) are simply removed from flex layout, so
+  filtering and the carousel compose for free.
+- Added responsive width/stacking rules for `.work__card` at the 1024px,
+  768px, and 480px breakpoints (none existed before); card internals
+  (content + visual) stack to a single column at ≤480px.
 
-### 3. New "Our Work" section — industry example cards with a working filter
+### 3. "Everything we deliver" — rebuilt as a tabbed deliverable board
 
-Dave asked to port the old site's "Our Work / Proven Results Across
-Industries" case-studies section. **Important deviation from the old
-site**: its three case studies used fabricated client names (Meridian
-Finance, VitalSync Health, Luxe Retail) and invented stats (2.1M users,
-+340% growth, etc.) — clearly template placeholder content. Asked Dave how
-to handle this; he chose **"port layout only, placeholder cards"** — so the
-shipped version has no invented client names or fake metrics. Cards use
-neutral "Example · [Industry]" labels, generic project-type titles, and no
-stats block at all. Each card links to `#contact` ("Let's build something
-like this →") instead of a fake "View Case Study" link with nowhere to go.
+Full redesign from a flat 24-item sticky-note grid to a tabbed board
+matching reference designs Dave supplied, with one category active at a
+time (Product Management / Design / Front End Engineering / Product
+Marketing), a torn-washi-tape category label ("Plan the product" / "Design
+the experience" / "Build the product" / "Tell the story"), and a 4-across
+(then 3) grid of icon + label post-it cards per category.
 
-- New section `.work` / `id="our-work"`, placed after Pain Points, before
-  the (still commented-out) Combos section.
-- The All/Mobile/Web tab filter is **functional**, not decorative — added a
-  small filter script to `js/main.js` (cards carry `data-categories`, tabs
-  carry `data-filter`, toggling `hidden` on non-matching cards). The old
-  site's equivalent tabs were purely cosmetic (toggled an `.active` class,
-  never actually filtered anything) — didn't want to ship a control that
-  looks interactive but does nothing.
-- Fixed the nav: the header "Work" link previously duplicated "What We Do"
-  (both pointed at `#capabilities`, a leftover from commenting out the
-  Combos section last session). It now points at `#our-work`.
+**Icon style went through an explicit comparison round.** Reference images
+used a hand-drawn/sketchy doodle aesthetic that doesn't match the rest of
+the site's clean thin-line (feather-style) icons. Built Product Management
+first in the true hand-drawn style (SVG `feTurbulence`/`feDisplacementMap`
+wobble filter + Kalam handwriting font for card titles) as a "match
+reference exactly" option, then built Design in the site's existing clean
+icon language as a side-by-side comparison. **Dave chose clean over
+hand-drawn** — all four tabs now use clean-line SVG icons (24×24 viewBox,
+1.5 stroke, no filter), consistent with Capabilities/Pricing icons
+elsewhere on the page. The Kalam handwriting font and torn-tape label
+styling were kept (that part of the reference design stuck); only the icon
+rendering changed. The wobble-filter machinery was fully removed after the
+comparison (no dead CSS/SVG left behind).
 
-### 4. "A Low-Risk Way to Start" reworked into a comparison-card design
-
-Dave supplied a reference screenshot (not from the old site file — a fresh
-design comp) showing a compact two-column comparison card: Pragmatic
-Two-Week Engagement ($1,999, blue checkmarks) vs. Full-Time Hire (~$7,500,
-gray x-marks), a "VS." badge on the divider, a small blue callout box, and
-a 4-icon feature strip below.
-
-- Replaced the old two-separate-cards layout (a checklist card + a much
-  longer cost-comparison card with a redundant 6-row "commitment" table)
-  with the single unified `.lowrisk__compare` card matching the reference.
-- The `$1,999` / `~$7,500` / `$180,000` figures still come from the
-  existing `js/main.js` config object (`comparison` in the "Low-risk
-  engagement cost comparison" IIFE) — untouched, just re-pointed at the new
-  markup's IDs. Removed the `lowrisk-percent` ("~27%") element and its
-  main.js code since the new design doesn't use it.
-- Kept the disclaimer paragraph ("Illustrative comparison only...") in
-  compact form below the card — didn't want to show a dollar-figure
-  comparison with no caveat given it's an illustrative estimate, not a
-  verified figure.
-- Confirmed working at 1140px and ~900px (verified via a fresh tab with
-  earlier sections temporarily hidden — screenshots of this page reliably
-  came back solid white past ~4000px of scroll depth in this environment
-  regardless of scroll method, seemingly a tool/harness capture limit, not
-  a real rendering bug; confirmed via DOM/computed-style inspection plus
-  the hidden-sections workaround). True ~390px width hit the same window-size
-  floor as the showcase section, so it's untested pixel-for-pixel at that
-  exact width, but the mobile override is a single `grid-template-columns:
-  1fr` swap on a pattern already proven at that breakpoint elsewhere on the
-  page.
+- New Google Font: Kalam (400/700), used for `.deliverables__tape` and
+  `.deliverables__postit-label` only.
+- Tab switching reuses the same radio-input + CSS `:has()` pattern as the
+  device showcase section (`.deliverables__control` / `.deliverables__panel`).
+- Some icons are intentionally reused across categories where the
+  underlying deliverable is the same thing (Internal tools/wrench in both
+  PM and FE; Component systems in both Design and FE; Logos & identity in
+  both Design and Marketing) — matches how the reference content repeats
+  these too, not a bug.
+- Old `.postit`/`.deliverables__grid` (24-item flat grid) CSS fully
+  replaced, not left alongside the new styles.
 
 ## Open items / things to revisit
 
-- **Combos section is still commented out, not resolved.** Either bring it
-  back reworked, replace it with something else, or remove it for good —
-  "confusing" was the only feedback given, no direction yet on what (if
-  anything) should replace it.
 - **A pre-push `check.sh` script** — a tiny script that runs a tag-balance
   sanity check and a headless screenshot pass at the three breakpoints, so
   "pineapple" doesn't rely on manually driving a browser every time. Not
-  started. Worth noting from this session: browser-based screenshot
-  verification hit a window-size floor around 750-800px CSS width in this
-  environment and a capture-goes-blank issue past ~4000px scroll depth —
-  a `check.sh` using a real headless tool (e.g. Playwright) rather than
-  this session's interactive browser automation would likely sidestep
-  both.
-- **The $460–620K figure** (`.whynothire__badresult-note`) — last
-  session's HANDOFF said this appeared in three places needing
-  centralization via the `js/main.js` config-object pattern. Checked this
-  session: it now appears in exactly **one** place in the live HTML (the
-  other occurrences were inside the still-commented-out Combos section).
-  Nothing to centralize until/unless Combos comes back.
-- No client feedback yet on anything shipped this session or last —
-  the device showcase, CTA restyle, Our Work section, and Low-Risk rework
-  were all built from direct chat instructions, not yet reviewed live by
-  the client.
+  started. Worth noting: browser-based screenshot verification in this
+  environment hits a window-size floor around 750–800px CSS width and a
+  capture-goes-blank issue past ~4000px scroll depth (worked around this
+  session by temporarily hiding other sections before screenshotting the
+  deliverables section, same trick used last session for the Low-Risk
+  section) — a `check.sh` using a real headless tool (e.g. Playwright)
+  would likely sidestep both.
+- **Narrow-viewport (≤480px) verification of this session's new sections**
+  — the Work carousel and the deliverables tab control both got responsive
+  CSS rules added (card widths, tab wrapping, 2-column icon grid) but
+  weren't pixel-verified at true small-phone widths, for the same tooling
+  floor reason as above. The rules follow patterns already proven
+  elsewhere on the page, but flag this if something looks off on a real
+  phone.
+- **The $460–620K figure** (`.whynothire__badresult-note`) — appears in
+  exactly one place in the live HTML; nothing to centralize unless Combos
+  (now permanently removed) or something like it comes back.
+- No client feedback yet on anything shipped this session or prior
+  sessions.
 
 ## Next-session prompt (copy/paste this in cold)
 
@@ -172,11 +155,14 @@ GitHub Pages deploy gate, tell me what's still open, update HANDOFF.md, and hand
 fresh copy-paste prompt like this one for the session after that.
 
 Current state: clean, pushed live (see `git log -1` for the exact commit), deploy gate
-passed. This session added the device showcase section, restyled the final CTA blue,
-added a new "Our Work" section (placeholder content only, by design — see HANDOFF.md
-for why), and reworked "A Low-Risk Way to Start" into a comparison-card design. Top of
-the open-items list: the Combos section is still commented out pending a decision on
-whether to rework it, replace it, or cut it for good. Also open: a pre-push check.sh
-script (not started). No client feedback yet on any of this session's or prior
-sessions' changes.
+passed. This session permanently removed the commented-out Combos section, converted
+"Work Across Industries" into a horizontal scroll-snap carousel with prev/next arrows,
+and rebuilt "Everything we deliver" as a tabbed post-it board (Product Management /
+Design / Front End Engineering / Product Marketing) with clean-line icons matching the
+rest of the site (a hand-drawn icon style was prototyped and explicitly rejected in
+favor of this). Top of the open-items list: a pre-push check.sh script (still not
+started) and narrow-viewport (≤480px) verification of this session's two new/reworked
+sections, which is blocked by the same browser-automation window-size floor noted in
+prior sessions. No client feedback yet on any of this session's or prior sessions'
+changes.
 ```

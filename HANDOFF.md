@@ -49,105 +49,118 @@ Use a hard refresh (cmd+shift+R) or append a cache-busting query string
 
 ## What changed this session
 
-### 1. Full visual restyle to match get-pragmatic.com (the older live site)
+### 1. Device showcase section (carried over from last session's open item)
 
-Dave pointed at a different, older "Pragmatic" site — `get-pragmatic.com`
-(saved locally as `/Users/dave/Downloads/index (20).html`, a different
-positioning: "Standardized Software Development & Design") — and asked to
-carry over its **look and feel** onto this site's **existing content**
-(fractional-team hero copy, capability cards, pricing/retainer tiers,
-Low-Risk section, etc. all stayed as-is). Decisions confirmed in-session:
-full brand-color swap (not hero-only), no other old-site sections ported,
-device mockup stays generic/decorative (no real screenshots).
+Ported the old site's `.grey-section` (segmented control that swaps between
+Web App / Mobile App / Marketing Website mockups) into a new `.showcase`
+section, placed right after Capabilities. Source was
+`/Users/dave/Downloads/index (20).html` (HTML ~line 2192, CSS ~line 726).
 
-- **Logo**: replaced the plain-text "Pragmatic." wordmark with the old
-  site's inline SVG wordmark + blue accent square, in both nav and footer
-  (`.nav__logo` / `.footer__logo`).
-- **Brand colors**: introduced a `:root` custom-properties token layer in
-  `css/styles.css` (`--brand-blue: #3B82F6`, `--brand-blue-dark: #2563EB`,
-  `--brand-violet: #8B5CF6`, `--ink`, `--text-secondary`, `--text-muted`,
-  `--border`, `--bg-subtle`, `--bg-muted`) and swapped every occurrence of
-  the old Atlassian-style navy palette (`#0052cc`, `#172b4d`, `#505f79`,
-  `#dfe1e6`, etc.) sitewide, including inline SVG icon colors in
-  `index.html`. Capability-card accent colors and shadow tints (navy →
-  blue-tinted) moved to match.
-- **Typography**: swapped DM Sans / unused DM Serif Display for Plus
-  Jakarta Sans + Instrument Serif. Added a `.title-italic` utility, used
-  once on "work" in the hero headline as a restrained serif accent.
-- **Hero rebuilt as two-column layout** (`index.html` hero section,
-  `css/styles.css` Hero block): gradient/glow-orb/dotted background, left
-  column keeps the existing copy + CTAs, right column is a new animated
-  device mockup (laptop + tablet + phone, `@keyframes float` /
-  `floatReverse` / `floatSlow`) with a page-load stagger-entrance
-  (`.animate-up` / `.delay-1..4`, CSS-only, separate from the existing
-  scroll-triggered `.reveal` system used elsewhere).
-- **Capability cards extracted** into their own `<section class="capabilities"
-  id="capabilities">` right after the hero, since the two-column hero no
-  longer has room for them inline.
-- **Buttons and cards** updated to the old site's hover recipe: bigger
-  radius, `translateY` lift + colored shadow on hover instead of a flat
-  color-darken.
-- Followed up per Dave's feedback: **removed the two floating stat badges**
-  ("4 roles, 0 new hires" / "~27% of a full-time hire") from the hero
-  mockup — kept just the laptop/tablet/phone float animation, no pills.
+- Panel switching is **pure CSS** — no JS — using `:has()`
+  (`.showcase__control:has(#showcase-webapp:checked) ~ .showcase__stage
+  .showcase__panel--webapp`, etc.), unlike the old site's JS-driven toggle.
+- Added responsive scaling the old site never had: `.showcase__panel` uses
+  `transform: translate(-50%,-50%) scale(...)` at the existing 1024px and
+  768px breakpoints (same technique as the hero mockup), so the 640px-wide
+  laptop mockup scales down instead of overflowing on small screens.
+- Confirmed working at 1140px, ~900px, and via the ≤768px mobile CSS bucket
+  (a hard floor in this environment's browser-automation tooling prevented
+  literally hitting 390px viewport width, but the math checks out — the
+  laptop renders at 320px wide at the 0.5 mobile scale factor, well under
+  the ~350px available at 390px viewport width).
 
-### 2. Commented out the "Built Around the Problem" combos section
+### 2. Final CTA section restyled to blue (Dave supplied a reference screenshot)
 
-Dave flagged it as confusing. Wrapped the whole `<section class="combos"
-id="work">` block in an HTML comment in `index.html` (not deleted — easy to
-restore). Repointed the two nav links that pointed at `#work` (header
-"Work" link, footer "What We Do" link) to `#capabilities` so navigation
-doesn't silently break with a dead anchor.
+`.cta-section` (the "Ready to turn the conversation into something useful?"
+block just above the footer) changed from a flat dark-navy background to
+the old site's blue gradient treatment: `linear-gradient(135deg,
+var(--brand-blue) 0%, var(--brand-blue-dark) 50%, #1d4ed8 100%)`, plus two
+radial-gradient background orbs, a bolder/larger title (now wraps to three
+balanced lines instead of two — removed the old hardcoded `<br>`), and the
+primary button's text recolored to `var(--brand-blue)` to read against the
+white button on the new blue background.
 
-### 3. `bestfit` bar removed (earlier in session, also shipped)
+### 3. New "Our Work" section — industry example cards with a working filter
 
-The "4 roles. 0 new hires." bar directly below the hero was fully redundant
-with the new hero's capability cards. Removed the section, its CSS
-(`.bestfit*`), and the matching mobile breakpoint rules — pure deletion, no
-replacement content.
+Dave asked to port the old site's "Our Work / Proven Results Across
+Industries" case-studies section. **Important deviation from the old
+site**: its three case studies used fabricated client names (Meridian
+Finance, VitalSync Health, Luxe Retail) and invented stats (2.1M users,
++340% growth, etc.) — clearly template placeholder content. Asked Dave how
+to handle this; he chose **"port layout only, placeholder cards"** — so the
+shipped version has no invented client names or fake metrics. Cards use
+neutral "Example · [Industry]" labels, generic project-type titles, and no
+stats block at all. Each card links to `#contact` ("Let's build something
+like this →") instead of a fake "View Case Study" link with nowhere to go.
+
+- New section `.work` / `id="our-work"`, placed after Pain Points, before
+  the (still commented-out) Combos section.
+- The All/Mobile/Web tab filter is **functional**, not decorative — added a
+  small filter script to `js/main.js` (cards carry `data-categories`, tabs
+  carry `data-filter`, toggling `hidden` on non-matching cards). The old
+  site's equivalent tabs were purely cosmetic (toggled an `.active` class,
+  never actually filtered anything) — didn't want to ship a control that
+  looks interactive but does nothing.
+- Fixed the nav: the header "Work" link previously duplicated "What We Do"
+  (both pointed at `#capabilities`, a leftover from commenting out the
+  Combos section last session). It now points at `#our-work`.
+
+### 4. "A Low-Risk Way to Start" reworked into a comparison-card design
+
+Dave supplied a reference screenshot (not from the old site file — a fresh
+design comp) showing a compact two-column comparison card: Pragmatic
+Two-Week Engagement ($1,999, blue checkmarks) vs. Full-Time Hire (~$7,500,
+gray x-marks), a "VS." badge on the divider, a small blue callout box, and
+a 4-icon feature strip below.
+
+- Replaced the old two-separate-cards layout (a checklist card + a much
+  longer cost-comparison card with a redundant 6-row "commitment" table)
+  with the single unified `.lowrisk__compare` card matching the reference.
+- The `$1,999` / `~$7,500` / `$180,000` figures still come from the
+  existing `js/main.js` config object (`comparison` in the "Low-risk
+  engagement cost comparison" IIFE) — untouched, just re-pointed at the new
+  markup's IDs. Removed the `lowrisk-percent` ("~27%") element and its
+  main.js code since the new design doesn't use it.
+- Kept the disclaimer paragraph ("Illustrative comparison only...") in
+  compact form below the card — didn't want to show a dollar-figure
+  comparison with no caveat given it's an illustrative estimate, not a
+  verified figure.
+- Confirmed working at 1140px and ~900px (verified via a fresh tab with
+  earlier sections temporarily hidden — screenshots of this page reliably
+  came back solid white past ~4000px of scroll depth in this environment
+  regardless of scroll method, seemingly a tool/harness capture limit, not
+  a real rendering bug; confirmed via DOM/computed-style inspection plus
+  the hidden-sections workaround). True ~390px width hit the same window-size
+  floor as the showcase section, so it's untested pixel-for-pixel at that
+  exact width, but the mobile override is a single `grid-template-columns:
+  1fr` swap on a pattern already proven at that breakpoint elsewhere on the
+  page.
 
 ## Open items / things to revisit
 
-- **Port the old site's "device showcase" section** (segmented control —
-  Web App / Mobile App / Marketing Website — that swaps between a large
-  laptop mockup and a phone mockup). Dave asked for this but then
-  interrupted with the combos-section removal request before it was built;
-  explicitly deferred to next session ("let's do it in next session").
-  Notes for picking this up: old site source is `.grey-section` in
-  `/Users/dave/Downloads/index (20).html` (HTML ~line 2192, CSS ~line
-  726). It has **no responsive handling at all** in the old site (fixed
-  900px-wide laptop, nothing in its `@media` blocks) — this repo's version
-  will need its own mobile/tablet scaling added (same `transform: scale()`
-  approach already used for the hero mockup). Recommend porting the
-  interaction as pure CSS (`:checked ~` sibling selectors) rather than the
-  old site's JS toggle — no need to touch `js/main.js`.
-- **Combos section is commented out, not resolved.** Either bring it back
-  reworked, replace it with something else, or remove it for good — "confusing"
-  was the only feedback given, no direction yet on what (if anything)
-  should replace it.
-- No client feedback yet on any of this — the restyle, the hero rebuild,
-  and the combos removal were all built from direct chat instructions this
-  session, not yet reviewed by the client.
-- Retest at ~1140px (desktop container), ~900px (tablet breakpoint), and
-  ~390px (mobile) if more changes land near the hero or capabilities
-  sections — confirmed working at all three this session after the restyle,
-  including the new two-column hero collapsing to one column with a scaled
-  mockup.
-
-## Other ideas worth considering (not done, just flagged)
-
-- **Move the illustrative comparison numbers to one place** — the
-  `js/main.js` config object pattern used for the Low-Risk section (single
-  object, IDs written into by JS) worked well and is easy to update. Worth
-  reusing that pattern anywhere else on the page that has numbers repeated
-  in multiple spots (e.g. the $460–620K figure appears in three places
-  across the equation section and combos/lowrisk copy — note the combos
-  section is currently commented out, so re-evaluate this once that's
-  resolved).
-- **A pre-push checklist as an actual script** — a tiny `check.sh` that runs
-  the tag-balance sanity check and a headless screenshot pass at the three
-  breakpoints, so "pineapple" doesn't rely on manually driving a browser
-  every time.
+- **Combos section is still commented out, not resolved.** Either bring it
+  back reworked, replace it with something else, or remove it for good —
+  "confusing" was the only feedback given, no direction yet on what (if
+  anything) should replace it.
+- **A pre-push `check.sh` script** — a tiny script that runs a tag-balance
+  sanity check and a headless screenshot pass at the three breakpoints, so
+  "pineapple" doesn't rely on manually driving a browser every time. Not
+  started. Worth noting from this session: browser-based screenshot
+  verification hit a window-size floor around 750-800px CSS width in this
+  environment and a capture-goes-blank issue past ~4000px scroll depth —
+  a `check.sh` using a real headless tool (e.g. Playwright) rather than
+  this session's interactive browser automation would likely sidestep
+  both.
+- **The $460–620K figure** (`.whynothire__badresult-note`) — last
+  session's HANDOFF said this appeared in three places needing
+  centralization via the `js/main.js` config-object pattern. Checked this
+  session: it now appears in exactly **one** place in the live HTML (the
+  other occurrences were inside the still-commented-out Combos section).
+  Nothing to centralize until/unless Combos comes back.
+- No client feedback yet on anything shipped this session or last —
+  the device showcase, CTA restyle, Our Work section, and Low-Risk rework
+  were all built from direct chat instructions, not yet reviewed live by
+  the client.
 
 ## Next-session prompt (copy/paste this in cold)
 
@@ -158,12 +171,12 @@ that's a standing codeword: when I say "pineapple," push all changes live, check
 GitHub Pages deploy gate, tell me what's still open, update HANDOFF.md, and hand me a
 fresh copy-paste prompt like this one for the session after that.
 
-Current state: clean, pushed live (see `git log -1` for the exact commit),
-deploy gate passed. Top of the
-open-items list: port the old site's device-showcase section (segmented control that
-swaps between a laptop/phone mockup — see HANDOFF.md "Open items" for exact source
-location and notes on why it needs new responsive CSS). Also unresolved: the "Built
-Around the Problem" combos section is commented out (not deleted) pending a decision on
-whether to rework it, replace it, or cut it for good. No client feedback yet on any of
-this session's or the prior session's changes.
+Current state: clean, pushed live (see `git log -1` for the exact commit), deploy gate
+passed. This session added the device showcase section, restyled the final CTA blue,
+added a new "Our Work" section (placeholder content only, by design — see HANDOFF.md
+for why), and reworked "A Low-Risk Way to Start" into a comparison-card design. Top of
+the open-items list: the Combos section is still commented out pending a decision on
+whether to rework it, replace it, or cut it for good. Also open: a pre-push check.sh
+script (not started). No client feedback yet on any of this session's or prior
+sessions' changes.
 ```

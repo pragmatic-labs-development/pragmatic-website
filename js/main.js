@@ -132,12 +132,30 @@
   });
 })();
 
-// Our Work — filter cards by category
+// Our Work — filter cards by category, horizontal scroll-snap carousel
 (function () {
   var tabs = document.querySelectorAll('.work__tab');
   var cards = document.querySelectorAll('.work__card');
+  var list = document.querySelector('.work__list');
+  var prevBtn = document.querySelector('.work__nav-btn--prev');
+  var nextBtn = document.querySelector('.work__nav-btn--next');
 
-  if (!tabs.length || !cards.length) return;
+  if (!tabs.length || !cards.length || !list) return;
+
+  function updateNavButtons() {
+    if (!prevBtn || !nextBtn) return;
+    var maxScroll = list.scrollWidth - list.clientWidth;
+    prevBtn.disabled = list.scrollLeft <= 4;
+    nextBtn.disabled = list.scrollLeft >= maxScroll - 4;
+  }
+
+  function scrollByCard(direction) {
+    var firstVisibleCard = list.querySelector('.work__card:not([hidden])');
+    var amount = firstVisibleCard
+      ? firstVisibleCard.getBoundingClientRect().width + 24
+      : list.clientWidth * 0.9;
+    list.scrollBy({ left: direction * amount, behavior: 'smooth' });
+  }
 
   tabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
@@ -151,8 +169,17 @@
         var categories = card.getAttribute('data-categories').split(' ');
         card.hidden = filter !== 'all' && categories.indexOf(filter) === -1;
       });
+
+      list.scrollTo({ left: 0, behavior: 'smooth' });
     });
   });
+
+  if (prevBtn) prevBtn.addEventListener('click', function () { scrollByCard(-1); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { scrollByCard(1); });
+
+  list.addEventListener('scroll', updateNavButtons);
+  window.addEventListener('resize', updateNavButtons);
+  updateNavButtons();
 })();
 
 // Low-risk engagement cost comparison — numbers live in one place here,

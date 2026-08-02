@@ -132,6 +132,29 @@
   });
 })();
 
+// Our Work — filter cards by category
+(function () {
+  var tabs = document.querySelectorAll('.work__tab');
+  var cards = document.querySelectorAll('.work__card');
+
+  if (!tabs.length || !cards.length) return;
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var filter = tab.getAttribute('data-filter');
+
+      tabs.forEach(function (t) {
+        t.classList.toggle('work__tab--active', t === tab);
+      });
+
+      cards.forEach(function (card) {
+        var categories = card.getAttribute('data-categories').split(' ');
+        card.hidden = filter !== 'all' && categories.indexOf(filter) === -1;
+      });
+    });
+  });
+})();
+
 // Low-risk engagement cost comparison — numbers live in one place here,
 // not scattered across the markup
 (function () {
@@ -144,7 +167,6 @@
   var twoWeekEl = document.getElementById('lowrisk-twoweek-cost');
   var engagementEl = document.getElementById('lowrisk-engagement-price');
   var annualEl = document.getElementById('lowrisk-annual-cost');
-  var percentEl = document.getElementById('lowrisk-percent');
 
   if (!twoWeekEl || !engagementEl) return;
 
@@ -157,10 +179,5 @@
 
   if (annualEl) {
     annualEl.textContent = usd(comparison.annualFullyLoadedCost);
-  }
-
-  if (percentEl) {
-    var pct = Math.round((comparison.engagementPrice / comparison.estimatedTwoWeekCost) * 100);
-    percentEl.textContent = pct + '%';
   }
 })();

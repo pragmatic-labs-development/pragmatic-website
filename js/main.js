@@ -131,3 +131,36 @@
     });
   });
 })();
+
+// Low-risk engagement cost comparison — numbers live in one place here,
+// not scattered across the markup
+(function () {
+  var comparison = {
+    annualFullyLoadedCost: 180000,
+    estimatedTwoWeekCost: 7500,
+    engagementPrice: 1999
+  };
+
+  var twoWeekEl = document.getElementById('lowrisk-twoweek-cost');
+  var engagementEl = document.getElementById('lowrisk-engagement-price');
+  var annualEl = document.getElementById('lowrisk-annual-cost');
+  var percentEl = document.getElementById('lowrisk-percent');
+
+  if (!twoWeekEl || !engagementEl) return;
+
+  function usd(n) {
+    return '$' + n.toLocaleString('en-US');
+  }
+
+  twoWeekEl.textContent = '~' + usd(comparison.estimatedTwoWeekCost);
+  engagementEl.textContent = usd(comparison.engagementPrice);
+
+  if (annualEl) {
+    annualEl.textContent = usd(comparison.annualFullyLoadedCost);
+  }
+
+  if (percentEl) {
+    var pct = Math.round((comparison.engagementPrice / comparison.estimatedTwoWeekCost) * 100);
+    percentEl.textContent = pct + '%';
+  }
+})();

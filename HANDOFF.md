@@ -1,12 +1,40 @@
-# Handoff — Pricing Section Rework
+# Handoff — Hero Rebuild + Low-Risk Engagement Section
 
-Last updated: 2026-08-01
-Latest commit: `e6d81b0` on `main` (pushed, working tree clean)
+Last updated: 2026-08-02
+Base commit: see `git log -1` (this session's changes are being pushed live
+as part of running "pineapple" — see below)
+
+## 🍍 Pineapple — the end-of-session ship checklist
+
+**"Pineapple" is a standing codeword, used session to session.** When Dave
+says "pineapple" (or "run pineapple"), it means:
+
+1. **Push all changes live.** Commit the working tree (specific files, not
+   blind `git add -A`) with a clear message, push to `origin/main`. This
+   repo has no PR/branch workflow — `main` is the only branch and pushing to
+   it directly triggers deployment.
+2. **Check the gate.** Pushing to `main` triggers the `Deploy to GitHub
+   Pages` GitHub Actions workflow (`.github/workflows/deploy.yml`). Watch
+   the run (`gh run list` / `gh run watch`) and confirm it succeeds — that's
+   "the gate." If it fails, say so immediately and don't report the session
+   as shipped.
+3. **Surface remaining work.** Anything still open — items in "Open
+   items" below, uncommitted files that didn't get swept up, known bugs not
+   yet fixed — gets called out explicitly, not buried.
+4. **Update this file.** Rewrite `HANDOFF.md` to reflect what actually
+   shipped this session, in the format this file already uses.
+5. **Write a next-session prompt.** A short copy-pasteable block (see
+   bottom of this file) that the next session can paste in cold to pick up
+   exactly where this one left off.
+
+Pushing to a shared remote is still a real action — if a session ever has
+unreviewed/uncertain changes when "pineapple" is called, flag that before
+pushing rather than pushing blind just because the codeword was said.
 
 ## Where things stand
 
-All work described below is committed and pushed to `origin/main`. No local
-uncommitted changes, no open branches.
+All work described below has been pushed live via this session's pineapple
+run. Check `git log -1` for the exact commit.
 
 Preview locally with:
 
@@ -14,66 +42,145 @@ Preview locally with:
 python3 -m http.server 8123
 ```
 
-then open `http://localhost:8123/index.html`. Jump to the pricing section
-via the "Pricing" nav link or `#pricing`; "Why not just hire?" sits earlier
-on the page, right after the "How it starts" steps.
+then open `http://localhost:8123/index.html`. **Browser caching gotcha**:
+plain reloads can serve stale `js/main.js` / `css/styles.css` after an edit.
+Use a hard refresh (cmd+shift+R) or append a cache-busting query string
+(`?v=2`) when verifying changes.
 
 ## What changed this session
 
-### 1. Start with a Sprint (`.pricing__hero*` in index.html / styles.css)
+### 1. Hero rebuilt around the four capabilities (`.hero__*`, `.capability-card*`)
 
-Rebuilt from a plain two-column card into a "hero" layout: left-aligned
-title + subtitle, three icon value badges (low-risk / clear scope / retainer
-teaser), a featured blue-bordered card ($1,999, "Best way to start" badge,
-"View retainer pricing" link), and 5 role cards in one row (added a
-"Flexible Mix" option) that stretch to match the featured card's height.
-Each role card has a color-coded top accent and a bottom "Available in
-every sprint" footer (mirrors the retainer tier checkmark pattern) so the
-stretched height doesn't read as empty space.
+Replaced the old headline+trust-badges hero with a three-layer structure:
+eyebrow ("Fractional Product Team") + headline ("Build the right team around
+the work.") + subtitle + two CTAs, then four capability cards (Product
+Management / UX-UI Design / Product Marketing / Front-End Engineering) inline
+in the hero itself, then a unifying line ("One flexible team. Built around
+what you need now."). Cards use accent colors blue/green/purple/orange per
+capability, reusing icons already established elsewhere on the site (open
+book for PM, pen for design, chat bubble for marketing, code brackets for
+front-end) rather than inventing new iconography.
 
-**Pricing is intentionally $1,999 for up to 10 hours, not 20.** The retainer
-is a flat $150/hr at every tier ($3,000/20h, $6,000/40h, etc.). A two-week
-sprint prorates to ~10 hours at that rate for $1,500 — $1,999 sits above
-that on purpose, so the sprint reads as a premium, low-commitment option
-rather than a discount. Don't "round up" the hours without also raising the
-price, or the premium framing breaks.
+Primary CTA → `#pricing`. Secondary CTA → `#retainer-tiers`.
 
-### 2. Monthly Retainers (`.pricing__retainer*`)
+**Note:** the `bestfit` section directly below the hero ("4 roles. 0 new
+hires." + role tags) now reads as fairly redundant with the hero — the hero
+already shows all four roles in much more detail immediately above it. Left
+untouched since it wasn't part of the brief, but worth revisiting.
 
-This block was already functional before this session's redesign work (pill
-selector + tier cards, JS-synced) — this session only added copy: each tier
-card now shows a weekly-hour equivalent ("Approximately 5 hours per week")
-and a "what it feels like" tagline + supporting sentence, e.g.:
+### 2. "What We Make" replaced with "Built Around the Problem" (`.combos*`, still `id="work"`)
 
-- 20h → "One focused work block each week"
-- 40h → "More than a full working day each week" (10 hrs/week is *more*
-  than an 8-hour day — don't revert to "about one full working day," that
-  undersells it)
-- 80h → "A part-time specialist or blended team" (not "half-time" — reads
-  as a sports idiom to the client)
-- 160h → "Full-time capacity without the full-time hire"
+The old 4-card `.whatwemake` section duplicated the new hero cards almost
+exactly, so it's gone. Replaced with a combos section showing how
+capabilities pair up: Product Discovery (PM+Design), A New Customer
+Experience (Design+FE), A Launch (PM+Marketing), An End-to-End Initiative
+(all four) — each shown as small role-icon chips joined by "+". Kept the
+`id="work"` anchor since nav links to it twice ("What We Do" and "Work").
 
-### 3. Why Not Just Hire (`.whynothire*`)
+### 3. New "Low-Risk Way to Start" section (`.lowrisk*`)
 
-Reframed as a literal equation: 4 role cards joined by "+", an "=", into a
-muted red/gray "Hiring all four" box reading **"Half a million dollars"**
-(exact range $460–620K/yr as supporting text) — deliberately styled to look
-unappealing. Below that, a "BY THE WAY" divider pivots into the existing
-full-width blue "Pragmatic" result box ($3,000/mo, badge, checklist, CTA),
-which the client has explicitly approved and called "brilliant" — don't
-restyle that box without re-confirming.
+Inserted between the combos section and "How It Starts". Three-column layout
+(`0.9fr 1.15fr 1fr`): intro/CTA column, engagement-checklist card with a pale
+green callout, and a cost-comparison card (~$7,500 fully-loaded two-week
+hire cost vs. $1,999 Pragmatic engagement, ~27%, plus a
+commitment-comparison table and disclaimer). Closes with "Hire when the role
+is clear. Start with Pragmatic when the work can't wait."
+
+The three dollar figures ($180,000 annual, $7,500 two-week, $1,999
+engagement, and the derived 27%) are **not hardcoded in the HTML** — they're
+set by a small config object in `js/main.js` (last IIFE in the file) that
+writes into `#lowrisk-annual-cost`, `#lowrisk-twoweek-cost`,
+`#lowrisk-engagement-price`, `#lowrisk-percent`. Update the numbers there,
+not in the markup.
+
+Mobile: cards stack in order (intro → checklist → cost → repeated CTA
+button, `.lowrisk__cta-repeat`, hidden above 768px).
+
+### 4. Sprint pricing box now leads with $1,999, mentions $3,000/mo and $30,000/yr as follow-on
+
+The full-width blue "whole product side, handled" result box (still the
+approved/"brilliant" box — only the copy changed, not the styling) now shows
+**$1,999/sprint** as the big number, with "Like it? Continue for $3,000/mo —
+or $30,000/yr paid annually" underneath. Previously this box led with
+$3,000/mo.
+
+**New pricing concept introduced this session: annual prepay = pay 10
+months, get 12** (a ~16.7% discount). Applied consistently to all four
+retainer tiers as a new `.pricing__tier-annual` line under each monthly
+price:
+- 20h: $3,000/mo → $30,000/yr
+- 40h: $6,000/mo → $60,000/yr
+- 80h: $12,000/mo → $120,000/yr
+- 160h: $24,000/mo → $240,000/yr
+
+Also referenced briefly in the FAQ ("Minimum engagement is $3,000/month, or
+pay annually and save"). This is a real pricing-policy decision (confirmed
+with the client rep in-session), not just copy — if the "pay 10, get 12"
+math ever changes, all four tiers plus the blue box plus the FAQ line need
+to move together.
+
+### 5. Why Not Just Hire subtitle de-duplicated
+
+Old subtitle repeated the same "$400–600K/year" figure that also appears
+in the red "Half a million dollars" box right below it. Changed to "Four
+full-time product roles means four salaries, four benefits packages, and
+months of recruiting before anyone starts." — same "expensive" point,
+no duplicate number.
+
+### 6. Bug fix: `<br>` + mobile `display:none` collapses text together
+
+Found and fixed three places where a `<br>` inside a heading gets
+`display:none` on mobile (to let the heading flow as one line), but the
+source HTML had no space before the word after the `<br>` — so hiding it
+mashed the words together (e.g. "team" + "around" → "teamaround"). Fixed by
+adding a literal space after the `<br>` in the source for: `.hero__title`,
+`.lowrisk__title`, and the pre-existing `.cta-section__title` (this last one
+was a latent bug from before this session, unrelated to today's hero work,
+just found while auditing). **If you add a new `<br>` to any heading that
+gets hidden on mobile, check this same trap.**
 
 ## Open items / things to revisit
 
-- No outstanding client feedback as of the last message in this session.
-- If further pricing-section changes come in, keep testing at ~1140px
-  (desktop container width), ~900px (tablet breakpoint), and ~390px
-  (mobile) — several rounds of feedback in this session were about content
-  wrapping oddly at the actual container width vs. how it looked in
-  reference mockups (which were designed at a much wider viewport).
-- Browser caching gotcha while testing locally: `python3 -m http.server`
-  serves `js/main.js` and `css/styles.css` with normal HTTP caching, so a
-  plain reload can silently serve a stale script/stylesheet after an edit.
-  Force a fresh fetch (`fetch(url, {cache: 'reload'})` for each asset, or a
-  true hard-refresh) before trusting what you see when verifying JS-driven
-  interactions.
+- `bestfit` section redundancy with the new hero (see note above) — not
+  fixed, flagged for a future session.
+- No client feedback yet on the new Low-Risk section or the $1,999-first /
+  annual-pricing changes — this was all built from direct chat instructions
+  this session, not yet reviewed by the client.
+- Retest at ~1140px (desktop container), ~900px (tablet breakpoint), and
+  ~390px (mobile) if more changes land nearby — confirmed working at all
+  three this session, including the new `.lowrisk__grid` (3-col →
+  intro-full-width+2-col → 1-col stack) and `.hero__capabilities` /
+  `.combos__grid` (4-col → 2-col → 1-col) responsive rules.
+
+## Other ideas worth considering (not done, just flagged)
+
+- **Resolve the bestfit redundancy** — either cut that section or repurpose
+  it now that the hero carries the "4 roles" message.
+- **A pre-push checklist as an actual script** — a tiny `check.sh` that runs
+  the tag-balance sanity check and a headless screenshot pass at the three
+  breakpoints, so "pineapple" doesn't rely on manually driving a browser
+  every time.
+- **Move the illustrative comparison numbers to one place** — the
+  `js/main.js` config object pattern used for the Low-Risk section (single
+  object, IDs written into by JS) worked well and is easy to update. Worth
+  reusing that pattern anywhere else on the page that has numbers repeated
+  in multiple spots (e.g. the $460–620K figure appears in three places
+  across the equation section and combos/lowrisk copy).
+- **Client review is the real open loop** — most of what shipped this
+  session (Low-Risk section, $1,999-first pricing, annual billing) came
+  from direct instructions in chat, not client-approved copy the way the
+  blue result box was. Get eyes on it before treating any of this pricing
+  language as final.
+
+## Next-session prompt (copy/paste this in cold)
+
+```
+Working on /Users/dave/pragmatic-website (GitHub: pragmatic-labs-development/pragmatic-website).
+Read HANDOFF.md at the repo root first, including the "Pineapple" section at the top —
+that's a standing codeword: when I say "pineapple," push all changes live, check the
+GitHub Pages deploy gate, tell me what's still open, update HANDOFF.md, and hand me a
+fresh copy-paste prompt like this one for the session after that.
+
+Current state: [fill in — e.g. "clean, no open feedback" or "client sent feedback on
+the Low-Risk section, see below"]
+```

@@ -1,7 +1,8 @@
 # Handoff — Old-Site Restyle (logo, colors, hero mockup)
 
 Last updated: 2026-08-02
-Base commit: 9c13158 (pushed live via this session's pineapple run)
+Base commit: see `git log -1` (this session's changes are being pushed live
+as part of running "pineapple" — see below)
 
 ## 🍍 Pineapple — the end-of-session ship checklist
 
@@ -157,7 +158,8 @@ that's a standing codeword: when I say "pineapple," push all changes live, check
 GitHub Pages deploy gate, tell me what's still open, update HANDOFF.md, and hand me a
 fresh copy-paste prompt like this one for the session after that.
 
-Current state: clean, pushed live as of commit 9c13158, deploy gate passed. Top of the
+Current state: clean, pushed live (see `git log -1` for the exact commit),
+deploy gate passed. Top of the
 open-items list: port the old site's device-showcase section (segmented control that
 swaps between a laptop/phone mockup — see HANDOFF.md "Open items" for exact source
 location and notes on why it needs new responsive CSS). Also unresolved: the "Built

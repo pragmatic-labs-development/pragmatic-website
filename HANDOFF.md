@@ -1,8 +1,7 @@
-# Handoff — Hero Rebuild + Low-Risk Engagement Section
+# Handoff — Old-Site Restyle (logo, colors, hero mockup)
 
 Last updated: 2026-08-02
-Base commit: see `git log -1` (this session's changes are being pushed live
-as part of running "pineapple" — see below)
+Base commit: 9c13158 (pushed live via this session's pineapple run)
 
 ## 🍍 Pineapple — the end-of-session ship checklist
 
@@ -49,128 +48,105 @@ Use a hard refresh (cmd+shift+R) or append a cache-busting query string
 
 ## What changed this session
 
-### 1. Hero rebuilt around the four capabilities (`.hero__*`, `.capability-card*`)
+### 1. Full visual restyle to match get-pragmatic.com (the older live site)
 
-Replaced the old headline+trust-badges hero with a three-layer structure:
-eyebrow ("Fractional Product Team") + headline ("Build the right team around
-the work.") + subtitle + two CTAs, then four capability cards (Product
-Management / UX-UI Design / Product Marketing / Front-End Engineering) inline
-in the hero itself, then a unifying line ("One flexible team. Built around
-what you need now."). Cards use accent colors blue/green/purple/orange per
-capability, reusing icons already established elsewhere on the site (open
-book for PM, pen for design, chat bubble for marketing, code brackets for
-front-end) rather than inventing new iconography.
+Dave pointed at a different, older "Pragmatic" site — `get-pragmatic.com`
+(saved locally as `/Users/dave/Downloads/index (20).html`, a different
+positioning: "Standardized Software Development & Design") — and asked to
+carry over its **look and feel** onto this site's **existing content**
+(fractional-team hero copy, capability cards, pricing/retainer tiers,
+Low-Risk section, etc. all stayed as-is). Decisions confirmed in-session:
+full brand-color swap (not hero-only), no other old-site sections ported,
+device mockup stays generic/decorative (no real screenshots).
 
-Primary CTA → `#pricing`. Secondary CTA → `#retainer-tiers`.
+- **Logo**: replaced the plain-text "Pragmatic." wordmark with the old
+  site's inline SVG wordmark + blue accent square, in both nav and footer
+  (`.nav__logo` / `.footer__logo`).
+- **Brand colors**: introduced a `:root` custom-properties token layer in
+  `css/styles.css` (`--brand-blue: #3B82F6`, `--brand-blue-dark: #2563EB`,
+  `--brand-violet: #8B5CF6`, `--ink`, `--text-secondary`, `--text-muted`,
+  `--border`, `--bg-subtle`, `--bg-muted`) and swapped every occurrence of
+  the old Atlassian-style navy palette (`#0052cc`, `#172b4d`, `#505f79`,
+  `#dfe1e6`, etc.) sitewide, including inline SVG icon colors in
+  `index.html`. Capability-card accent colors and shadow tints (navy →
+  blue-tinted) moved to match.
+- **Typography**: swapped DM Sans / unused DM Serif Display for Plus
+  Jakarta Sans + Instrument Serif. Added a `.title-italic` utility, used
+  once on "work" in the hero headline as a restrained serif accent.
+- **Hero rebuilt as two-column layout** (`index.html` hero section,
+  `css/styles.css` Hero block): gradient/glow-orb/dotted background, left
+  column keeps the existing copy + CTAs, right column is a new animated
+  device mockup (laptop + tablet + phone, `@keyframes float` /
+  `floatReverse` / `floatSlow`) with a page-load stagger-entrance
+  (`.animate-up` / `.delay-1..4`, CSS-only, separate from the existing
+  scroll-triggered `.reveal` system used elsewhere).
+- **Capability cards extracted** into their own `<section class="capabilities"
+  id="capabilities">` right after the hero, since the two-column hero no
+  longer has room for them inline.
+- **Buttons and cards** updated to the old site's hover recipe: bigger
+  radius, `translateY` lift + colored shadow on hover instead of a flat
+  color-darken.
+- Followed up per Dave's feedback: **removed the two floating stat badges**
+  ("4 roles, 0 new hires" / "~27% of a full-time hire") from the hero
+  mockup — kept just the laptop/tablet/phone float animation, no pills.
 
-**Note:** the `bestfit` section directly below the hero ("4 roles. 0 new
-hires." + role tags) now reads as fairly redundant with the hero — the hero
-already shows all four roles in much more detail immediately above it. Left
-untouched since it wasn't part of the brief, but worth revisiting.
+### 2. Commented out the "Built Around the Problem" combos section
 
-### 2. "What We Make" replaced with "Built Around the Problem" (`.combos*`, still `id="work"`)
+Dave flagged it as confusing. Wrapped the whole `<section class="combos"
+id="work">` block in an HTML comment in `index.html` (not deleted — easy to
+restore). Repointed the two nav links that pointed at `#work` (header
+"Work" link, footer "What We Do" link) to `#capabilities` so navigation
+doesn't silently break with a dead anchor.
 
-The old 4-card `.whatwemake` section duplicated the new hero cards almost
-exactly, so it's gone. Replaced with a combos section showing how
-capabilities pair up: Product Discovery (PM+Design), A New Customer
-Experience (Design+FE), A Launch (PM+Marketing), An End-to-End Initiative
-(all four) — each shown as small role-icon chips joined by "+". Kept the
-`id="work"` anchor since nav links to it twice ("What We Do" and "Work").
+### 3. `bestfit` bar removed (earlier in session, also shipped)
 
-### 3. New "Low-Risk Way to Start" section (`.lowrisk*`)
-
-Inserted between the combos section and "How It Starts". Three-column layout
-(`0.9fr 1.15fr 1fr`): intro/CTA column, engagement-checklist card with a pale
-green callout, and a cost-comparison card (~$7,500 fully-loaded two-week
-hire cost vs. $1,999 Pragmatic engagement, ~27%, plus a
-commitment-comparison table and disclaimer). Closes with "Hire when the role
-is clear. Start with Pragmatic when the work can't wait."
-
-The three dollar figures ($180,000 annual, $7,500 two-week, $1,999
-engagement, and the derived 27%) are **not hardcoded in the HTML** — they're
-set by a small config object in `js/main.js` (last IIFE in the file) that
-writes into `#lowrisk-annual-cost`, `#lowrisk-twoweek-cost`,
-`#lowrisk-engagement-price`, `#lowrisk-percent`. Update the numbers there,
-not in the markup.
-
-Mobile: cards stack in order (intro → checklist → cost → repeated CTA
-button, `.lowrisk__cta-repeat`, hidden above 768px).
-
-### 4. Sprint pricing box now leads with $1,999, mentions $3,000/mo and $30,000/yr as follow-on
-
-The full-width blue "whole product side, handled" result box (still the
-approved/"brilliant" box — only the copy changed, not the styling) now shows
-**$1,999/sprint** as the big number, with "Like it? Continue for $3,000/mo —
-or $30,000/yr paid annually" underneath. Previously this box led with
-$3,000/mo.
-
-**New pricing concept introduced this session: annual prepay = pay 10
-months, get 12** (a ~16.7% discount). Applied consistently to all four
-retainer tiers as a new `.pricing__tier-annual` line under each monthly
-price:
-- 20h: $3,000/mo → $30,000/yr
-- 40h: $6,000/mo → $60,000/yr
-- 80h: $12,000/mo → $120,000/yr
-- 160h: $24,000/mo → $240,000/yr
-
-Also referenced briefly in the FAQ ("Minimum engagement is $3,000/month, or
-pay annually and save"). This is a real pricing-policy decision (confirmed
-with the client rep in-session), not just copy — if the "pay 10, get 12"
-math ever changes, all four tiers plus the blue box plus the FAQ line need
-to move together.
-
-### 5. Why Not Just Hire subtitle de-duplicated
-
-Old subtitle repeated the same "$400–600K/year" figure that also appears
-in the red "Half a million dollars" box right below it. Changed to "Four
-full-time product roles means four salaries, four benefits packages, and
-months of recruiting before anyone starts." — same "expensive" point,
-no duplicate number.
-
-### 6. Bug fix: `<br>` + mobile `display:none` collapses text together
-
-Found and fixed three places where a `<br>` inside a heading gets
-`display:none` on mobile (to let the heading flow as one line), but the
-source HTML had no space before the word after the `<br>` — so hiding it
-mashed the words together (e.g. "team" + "around" → "teamaround"). Fixed by
-adding a literal space after the `<br>` in the source for: `.hero__title`,
-`.lowrisk__title`, and the pre-existing `.cta-section__title` (this last one
-was a latent bug from before this session, unrelated to today's hero work,
-just found while auditing). **If you add a new `<br>` to any heading that
-gets hidden on mobile, check this same trap.**
+The "4 roles. 0 new hires." bar directly below the hero was fully redundant
+with the new hero's capability cards. Removed the section, its CSS
+(`.bestfit*`), and the matching mobile breakpoint rules — pure deletion, no
+replacement content.
 
 ## Open items / things to revisit
 
-- `bestfit` section redundancy with the new hero (see note above) — not
-  fixed, flagged for a future session.
-- No client feedback yet on the new Low-Risk section or the $1,999-first /
-  annual-pricing changes — this was all built from direct chat instructions
-  this session, not yet reviewed by the client.
+- **Port the old site's "device showcase" section** (segmented control —
+  Web App / Mobile App / Marketing Website — that swaps between a large
+  laptop mockup and a phone mockup). Dave asked for this but then
+  interrupted with the combos-section removal request before it was built;
+  explicitly deferred to next session ("let's do it in next session").
+  Notes for picking this up: old site source is `.grey-section` in
+  `/Users/dave/Downloads/index (20).html` (HTML ~line 2192, CSS ~line
+  726). It has **no responsive handling at all** in the old site (fixed
+  900px-wide laptop, nothing in its `@media` blocks) — this repo's version
+  will need its own mobile/tablet scaling added (same `transform: scale()`
+  approach already used for the hero mockup). Recommend porting the
+  interaction as pure CSS (`:checked ~` sibling selectors) rather than the
+  old site's JS toggle — no need to touch `js/main.js`.
+- **Combos section is commented out, not resolved.** Either bring it back
+  reworked, replace it with something else, or remove it for good — "confusing"
+  was the only feedback given, no direction yet on what (if anything)
+  should replace it.
+- No client feedback yet on any of this — the restyle, the hero rebuild,
+  and the combos removal were all built from direct chat instructions this
+  session, not yet reviewed by the client.
 - Retest at ~1140px (desktop container), ~900px (tablet breakpoint), and
-  ~390px (mobile) if more changes land nearby — confirmed working at all
-  three this session, including the new `.lowrisk__grid` (3-col →
-  intro-full-width+2-col → 1-col stack) and `.hero__capabilities` /
-  `.combos__grid` (4-col → 2-col → 1-col) responsive rules.
+  ~390px (mobile) if more changes land near the hero or capabilities
+  sections — confirmed working at all three this session after the restyle,
+  including the new two-column hero collapsing to one column with a scaled
+  mockup.
 
 ## Other ideas worth considering (not done, just flagged)
 
-- **Resolve the bestfit redundancy** — either cut that section or repurpose
-  it now that the hero carries the "4 roles" message.
-- **A pre-push checklist as an actual script** — a tiny `check.sh` that runs
-  the tag-balance sanity check and a headless screenshot pass at the three
-  breakpoints, so "pineapple" doesn't rely on manually driving a browser
-  every time.
 - **Move the illustrative comparison numbers to one place** — the
   `js/main.js` config object pattern used for the Low-Risk section (single
   object, IDs written into by JS) worked well and is easy to update. Worth
   reusing that pattern anywhere else on the page that has numbers repeated
   in multiple spots (e.g. the $460–620K figure appears in three places
-  across the equation section and combos/lowrisk copy).
-- **Client review is the real open loop** — most of what shipped this
-  session (Low-Risk section, $1,999-first pricing, annual billing) came
-  from direct instructions in chat, not client-approved copy the way the
-  blue result box was. Get eyes on it before treating any of this pricing
-  language as final.
+  across the equation section and combos/lowrisk copy — note the combos
+  section is currently commented out, so re-evaluate this once that's
+  resolved).
+- **A pre-push checklist as an actual script** — a tiny `check.sh` that runs
+  the tag-balance sanity check and a headless screenshot pass at the three
+  breakpoints, so "pineapple" doesn't rely on manually driving a browser
+  every time.
 
 ## Next-session prompt (copy/paste this in cold)
 
@@ -181,6 +157,11 @@ that's a standing codeword: when I say "pineapple," push all changes live, check
 GitHub Pages deploy gate, tell me what's still open, update HANDOFF.md, and hand me a
 fresh copy-paste prompt like this one for the session after that.
 
-Current state: [fill in — e.g. "clean, no open feedback" or "client sent feedback on
-the Low-Risk section, see below"]
+Current state: clean, pushed live as of commit 9c13158, deploy gate passed. Top of the
+open-items list: port the old site's device-showcase section (segmented control that
+swaps between a laptop/phone mockup — see HANDOFF.md "Open items" for exact source
+location and notes on why it needs new responsive CSS). Also unresolved: the "Built
+Around the Problem" combos section is commented out (not deleted) pending a decision on
+whether to rework it, replace it, or cut it for good. No client feedback yet on any of
+this session's or the prior session's changes.
 ```

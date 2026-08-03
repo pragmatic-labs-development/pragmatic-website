@@ -2724,12 +2724,9 @@ h1, h2, h3, h4 {
 
 .pricing__tier-hours {
   display: block;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-size: 0.8125rem;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 
 .pricing__tier[aria-pressed="true"] .pricing__tier-hours {
@@ -2756,7 +2753,7 @@ h1, h2, h3, h4 {
   font-size: 0.75rem;
   font-weight: 600;
   color: #10B981;
-  margin-bottom: 10px;
+  margin-top: 12px;
 }
 
 .pricing__tier-weekly {
@@ -2764,15 +2761,29 @@ h1, h2, h3, h4 {
   font-size: 0.75rem;
   color: var(--text-muted);
   font-style: italic;
+  margin-bottom: 10px;
+}
+
+.pricing__tier-name {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--brand-blue);
+  margin-bottom: 6px;
 }
 
 .pricing__tier-desc {
-  display: block;
-  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.0625rem;
   font-weight: 700;
   color: var(--ink);
-  line-height: 1.4;
-  margin-bottom: 8px;
+  line-height: 1.35;
+  min-height: 4.05em;
+  margin-bottom: 4px;
 }
 
 .pricing__tier-longdesc {
@@ -3508,6 +3519,10 @@ h1, h2, h3, h4 {
 
   .pricing__retainer-tiers {
     grid-template-columns: 1fr;
+  }
+
+  .pricing__tier-desc {
+    min-height: 0;
   }
 
   /* About */

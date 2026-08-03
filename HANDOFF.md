@@ -1,7 +1,7 @@
-# Handoff — Old-Site Restyle (logo, colors, hero mockup)
+# Handoff — Homepage Repositioning (design/front-end-first messaging)
 
 Last updated: 2026-08-03
-Base commit: f7cbb5e (see `git log -1` to confirm — this session's changes
+Base commit: 547683a (see `git log -1` to confirm — this session's changes
 are live as of this "pineapple" run)
 
 ## 🍍 Pineapple — the end-of-session ship checklist
@@ -47,84 +47,84 @@ plain reloads can serve stale `js/main.js` / `css/styles.css` after an edit.
 Use a hard refresh (cmd+shift+R) or append a cache-busting query string
 (`?v=2`) when verifying changes.
 
-**New this session**: there's now a `check.sh` — run it before pushing.
-See "1. Added check.sh" below for what it does and its first-run setup
-(installs `node_modules` + a Playwright Chromium build, ~270MB, one time).
+**Scroll-reveal gotcha (still relevant)**: elements use `.reveal` +
+`IntersectionObserver` (`js/main.js:29-58`) to fade in as they cross the
+viewport. Programmatic/instant scrolls (browser automation, jump-scrolling)
+race this and can capture blank sections. `check.sh` already steps down the
+page in viewport-height increments to avoid this — when spot-checking
+manually in a live browser session, scroll incrementally and wait ~500ms-1s
+before screenshotting, or just trust `check.sh`'s screenshots.
+
+Run `./check.sh` before pushing — see prior session's entry for what it
+covers (tag-balance, headless console/network checks, screenshots at three
+breakpoints).
 
 ## What changed this session
 
-### 1. Added `check.sh` — pre-push sanity check
+Dave got a messaging brief arguing the homepage should lead with one
+concrete promise instead of "fractional product team," with product
+management, research, and marketing as supporting capabilities rather than
+co-equal pillars. After discussion, scope was deliberately narrowed twice:
 
-Resolves last session's top open item. `./check.sh` (repo root):
+- **No rebrand.** "Pragmatic" stays the brand — logo, colors, visual
+  design, nav, all untouched.
+- **No structural/pricing change.** Two-Week Sprint ($1,999) and the
+  Focus/Momentum/Scale/Embedded retainer tiers (redesigned two sessions
+  ago) are untouched — copy and DOM element order only.
 
-- Installs `node_modules`/Playwright Chromium on first run (gitignored,
-  `npm install` + `playwright install chromium`).
-- Starts a local `python3 -m http.server`, runs `scripts/check.mjs`, tears
-  the server down after.
-- **Tag-balance check** on `index.html` (stack-based scan, strips comments
-  and script contents, accounts for void elements and self-closing tags).
-- **Headless load check** at 1024px/768px/480px: fails on any browser
-  console error or failed (4xx/5xx) network request.
-- Saves full-page screenshots to `.check-screenshots/` (gitignored) at all
-  three breakpoints for manual visual review.
+Dave's framing of the core wedge (broader than pure "UI design"): **we
+build your web app, mobile app, or marketing website** — interface
+delivery is the lead promise; product management, research, product
+marketing, and things like slide decks become secondary, framed as
+available à la carte rather than pitched up front (Dave's own analogy: a
+restaurant menu — a few prominent "combos" up top, à la carte items like
+slide decks are "combo #24," not competing for attention).
 
-**Found a real bug in the testing approach itself**, not the site: early
-screenshots of the deliverables section came back blank. Root cause is the
-site's scroll-reveal (`.reveal` → `.is-visible` via `IntersectionObserver`
-in `js/main.js:29-58`) — it only fires as elements actually cross into the
-viewport, so an instant jump-scroll screenshot races the observer and
-captures the pre-fade-in state. This is almost certainly what was behind
-prior sessions' "capture goes blank past ~4000px scroll depth" issue seen
-during manual browser-automation verification. Not a site bug — real users
-scrolling normally never hit it. Fixed in `check.mjs` by stepping down the
-page in viewport-height increments (with short waits) before every
-screenshot, which mirrors real scroll behavior and resolved it.
+### Sections changed (all in `index.html`, copy + element order only)
 
-### 2. ≤480px verification of last session's two sections — done
+1. **Hero** — new eyebrow/headline/subhead leading with "We build your web
+   app, mobile app, or marketing website" (deliberately echoes the existing
+   Device Showcase toggle's own three labels — that section didn't need to
+   change, it was already aligned).
+2. **Capabilities** (4 cards) — reordered so UX/UI Design + Front-End
+   Engineering lead, Product Management + Product Marketing follow. Closing
+   line reworded.
+3. **Two-Week Sprint role cards** (pricing section) — same reorder
+   (Designer/Front-End Engineer first).
+4. **Deliverables tabs** — reordered (Design, Front End Engineering,
+   Product Management, Product Marketing), Design is now the default tab.
+   Added a new à la carte line naming investor/sales decks explicitly.
+5. **"Sound familiar?" pain points** — reordered so the interface/design
+   complaint leads; reworded the "can't afford a PM, designer, and
+   front-end dev" quote to drop PM from that specific pain (now just
+   designer + front-end).
+6. **"Why not just hire?" equation** — reordered the four role cards
+   (Designer, Front-End Engineer first) — math/total ($460–620K) untouched,
+   order doesn't affect the sum.
+7. **FAQ** — reworked one Q&A to explicitly state most clients start with
+   just design/front-end, PM/marketing added later only if needed.
+8. **About** paragraph — reworded to lead with build/interface.
+9. **Footer tagline** — reworded to match.
 
-Also resolves a last-session open item. With the check.sh scroll-reveal fix
-in place, captured clean isolated crops of both sections at 480px:
+### A copy-tone catch worth remembering
 
-- **Work carousel**: card stacks to a single column (content over visual),
-  filter tabs + prev/next arrows stay on one row, no overflow.
-- **Deliverables board**: tab control wraps to two rows of two (Product
-  Management/Design, then Front End Engineering/Product Marketing),
-  2-column post-it grid, all readable.
+First pass at the Capabilities closing line and About paragraph used
+phrasing like *"Mostly design and front-end engineering — with X support
+when Y."* Dave flagged this as reading like an internal admission rather
+than customer-facing copy ("we can't say the quiet part out loud"). Fixed
+by restating the same hierarchy as a confident positioning choice — e.g.
+*"Design and front-end engineering are the core of every engagement —
+product management and marketing support are there when you need them."*
+Watch for this "mostly... with... when" hedging pattern in future copy
+passes; the fix is to assert the hierarchy, not apologize for it.
 
-Nothing looked broken; responsive rules added last session hold up at true
-small-phone width.
+### Explicitly left untouched
 
-### 3. Pricing tier cards redesigned (Ongoing Support section, `#pricing`)
-
-Dave's ask: lead with the headline instead of the hours figure, move hours
-into a parenthetical, drop the per-card exact annual-dollar text, and add
-something annual-related back in near the bottom. Also asked for tier
-names in a follow-up ("Focus / Momentum / Scale / Embedded" — recommended
-to reuse language already present in each card's own copy rather than
-generic SaaS names like Basic/Pro/Premium, which Dave accepted as-is).
-
-Per card, new top-to-bottom order: blue eyebrow tier name → headline
-(now the largest/lead text) → `(N hours)` → divider → price → weekly
-detail → long description → dedicated-hours checkmark → green annual note
-("Ask about locking in for a year to save with annual billing.") at the
-very bottom, replacing the old per-card "or $X/yr paid annually" line.
-
-- New `.pricing__tier-name` class (blue, uppercase, small) for Focus /
-  Momentum / Scale / Embedded.
-- `.pricing__tier-desc` (the headline) bumped up to lead size
-  (0.875rem → 1.0625rem) and given a `min-height` (4.05em, ~3 lines) on
-  desktop/tablet so the divider/price/etc. line up across the 4-card grid
-  regardless of how many lines each card's headline wraps to — reset to
-  `min-height: 0` in the ≤768px single-column layout where cross-card
-  alignment doesn't apply.
-- `.pricing__tier-hours` restyled from an uppercase standalone label to a
-  quiet parenthetical caption under the headline.
-- `.pricing__tier-annual` (green) repurposed and repositioned: same class,
-  moved to the bottom of the card, reworded to the generic annual-billing
-  prompt (no dollar figures, since it's shared across all four tiers now).
-
-Verified at desktop (4-across) and 480px mobile via isolated Playwright
-screenshots; ran `check.sh` clean after.
+- Nav labels, pricing structure/numbers, visual design/colors/logo.
+- **Work carousel** — already aligned (shows finished web/mobile product
+  work, no PM/marketing framing to demote).
+- The $460–620K math itself in "Why not just hire?" — only card order
+  changed.
 
 ## Open items / things to revisit
 
@@ -147,13 +147,17 @@ GitHub Pages deploy gate, tell me what's still open, update HANDOFF.md, and hand
 fresh copy-paste prompt like this one for the session after that.
 
 Current state: clean, pushed live (see `git log -1` for the exact commit), deploy gate
-passed. This session added check.sh (a pre-push script covering HTML tag balance +
-headless load/console/network checks + screenshots at the three breakpoints — run it
-before pushing; first run installs Playwright, ~270MB one-time), verified both of last
-session's new sections at ≤480px (clean), and redesigned the pricing/ongoing-support
-tier cards: headline-first layout, hours as a parenthetical, tier names (Focus /
-Momentum / Scale / Embedded), and the annual-pricing mention moved from a per-card
-dollar figure to a generic prompt at the bottom of each card. No client feedback yet on
-any of this session's or prior sessions' changes. check.sh is manual only — no hook
-enforces it before push.
+passed. This session repositioned the homepage messaging per Dave's brief: design and
+front-end engineering are now the clear lead offering ("we build your web app, mobile
+app, or marketing website"), with product management, marketing, and things like slide
+decks framed as available add-ons rather than co-equal pillars. This was copy and
+element-reordering only — no rebrand (still "Pragmatic," same logo/colors/visual
+design) and no pricing/structural changes (Two-Week Sprint + Focus/Momentum/Scale/
+Embedded tiers untouched). Sections touched: hero, capabilities, sprint role cards,
+deliverables tabs (new default tab + new à la carte line), pain points, why-not-hire
+equation (reorder only, math unchanged), one FAQ answer, about paragraph, footer
+tagline. Watch for hedging phrasing like "mostly X — with Y when Z" in future copy;
+Dave flagged it as reading like an internal admission rather than customer-facing
+copy — state the hierarchy confidently instead. No client feedback yet on any of this
+or prior sessions' changes. check.sh is manual only — no hook enforces it before push.
 ```

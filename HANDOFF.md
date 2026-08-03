@@ -1,8 +1,8 @@
 # Handoff — Old-Site Restyle (logo, colors, hero mockup)
 
-Last updated: 2026-08-02
-Base commit: see `git log -1` (this session's changes are being pushed live
-as part of running "pineapple" — see below)
+Last updated: 2026-08-03
+Base commit: f7cbb5e (see `git log -1` to confirm — this session's changes
+are live as of this "pineapple" run)
 
 ## 🍍 Pineapple — the end-of-session ship checklist
 
@@ -47,103 +47,95 @@ plain reloads can serve stale `js/main.js` / `css/styles.css` after an edit.
 Use a hard refresh (cmd+shift+R) or append a cache-busting query string
 (`?v=2`) when verifying changes.
 
+**New this session**: there's now a `check.sh` — run it before pushing.
+See "1. Added check.sh" below for what it does and its first-run setup
+(installs `node_modules` + a Playwright Chromium build, ~270MB, one time).
+
 ## What changed this session
 
-### 1. Combos section removed for good
+### 1. Added `check.sh` — pre-push sanity check
 
-Last session's open item — "confusing, revisit later" — got resolved this
-session: Dave chose to cut it outright rather than rework or replace it.
-Removed the commented-out `<section class="combos" id="work">` block from
-`index.html`, its full CSS block (`.combos*` rules, including the
-`prefers-reduced-motion` override), and the two stale `.combos__grid`
-references left in the 1024px/768px responsive blocks. Nothing else
-referenced `.combos` anywhere (confirmed via grep across html/css/js), so
-this was a clean removal with no follow-on breakage.
+Resolves last session's top open item. `./check.sh` (repo root):
 
-### 2. "Work Across Industries" — converted to a horizontal carousel
+- Installs `node_modules`/Playwright Chromium on first run (gitignored,
+  `npm install` + `playwright install chromium`).
+- Starts a local `python3 -m http.server`, runs `scripts/check.mjs`, tears
+  the server down after.
+- **Tag-balance check** on `index.html` (stack-based scan, strips comments
+  and script contents, accounts for void elements and self-closing tags).
+- **Headless load check** at 1024px/768px/480px: fails on any browser
+  console error or failed (4xx/5xx) network request.
+- Saves full-page screenshots to `.check-screenshots/` (gitignored) at all
+  three breakpoints for manual visual review.
 
-Dave wanted the case-studies section to scroll horizontally instead of
-stacking vertically, starting with Mobile Banking App on the left and
-Healthcare peeking off the right edge. Recommended and built **CSS
-scroll-snap** over an auto-advancing carousel (native momentum scroll,
-no timers/pause-on-hover complexity, works with only 3 cards) — Dave
-confirmed this approach before implementation.
+**Found a real bug in the testing approach itself**, not the site: early
+screenshots of the deliverables section came back blank. Root cause is the
+site's scroll-reveal (`.reveal` → `.is-visible` via `IntersectionObserver`
+in `js/main.js:29-58`) — it only fires as elements actually cross into the
+viewport, so an instant jump-scroll screenshot races the observer and
+captures the pre-fade-in state. This is almost certainly what was behind
+prior sessions' "capture goes blank past ~4000px scroll depth" issue seen
+during manual browser-automation verification. Not a site bug — real users
+scrolling normally never hit it. Fixed in `check.mjs` by stepping down the
+page in viewport-height increments (with short waits) before every
+screenshot, which mirrors real scroll behavior and resolved it.
 
-- `.work__list` is now `display: flex; overflow-x: auto; scroll-snap-type:
-  x mandatory` (scrollbar hidden cross-browser) instead of a vertical
-  stack; `.work__card` is a fixed-width flex item (`width: min(760px,
-  82vw)`, `scroll-snap-align: start`) instead of full-width.
-- Added round prev/next arrow buttons (`.work__nav-btn`) next to the
-  existing All/Mobile/Web filter tabs, wrapped together in a new
-  `.work__controls` row. JS (`js/main.js`) scrolls by one card width per
-  click, disables arrows at the scroll extremes, and resets scroll
-  position to the start whenever the category filter changes.
-- Existing filter script untouched apart from the scroll-reset addition —
-  hidden cards (`[hidden]`) are simply removed from flex layout, so
-  filtering and the carousel compose for free.
-- Added responsive width/stacking rules for `.work__card` at the 1024px,
-  768px, and 480px breakpoints (none existed before); card internals
-  (content + visual) stack to a single column at ≤480px.
+### 2. ≤480px verification of last session's two sections — done
 
-### 3. "Everything we deliver" — rebuilt as a tabbed deliverable board
+Also resolves a last-session open item. With the check.sh scroll-reveal fix
+in place, captured clean isolated crops of both sections at 480px:
 
-Full redesign from a flat 24-item sticky-note grid to a tabbed board
-matching reference designs Dave supplied, with one category active at a
-time (Product Management / Design / Front End Engineering / Product
-Marketing), a torn-washi-tape category label ("Plan the product" / "Design
-the experience" / "Build the product" / "Tell the story"), and a 4-across
-(then 3) grid of icon + label post-it cards per category.
+- **Work carousel**: card stacks to a single column (content over visual),
+  filter tabs + prev/next arrows stay on one row, no overflow.
+- **Deliverables board**: tab control wraps to two rows of two (Product
+  Management/Design, then Front End Engineering/Product Marketing),
+  2-column post-it grid, all readable.
 
-**Icon style went through an explicit comparison round.** Reference images
-used a hand-drawn/sketchy doodle aesthetic that doesn't match the rest of
-the site's clean thin-line (feather-style) icons. Built Product Management
-first in the true hand-drawn style (SVG `feTurbulence`/`feDisplacementMap`
-wobble filter + Kalam handwriting font for card titles) as a "match
-reference exactly" option, then built Design in the site's existing clean
-icon language as a side-by-side comparison. **Dave chose clean over
-hand-drawn** — all four tabs now use clean-line SVG icons (24×24 viewBox,
-1.5 stroke, no filter), consistent with Capabilities/Pricing icons
-elsewhere on the page. The Kalam handwriting font and torn-tape label
-styling were kept (that part of the reference design stuck); only the icon
-rendering changed. The wobble-filter machinery was fully removed after the
-comparison (no dead CSS/SVG left behind).
+Nothing looked broken; responsive rules added last session hold up at true
+small-phone width.
 
-- New Google Font: Kalam (400/700), used for `.deliverables__tape` and
-  `.deliverables__postit-label` only.
-- Tab switching reuses the same radio-input + CSS `:has()` pattern as the
-  device showcase section (`.deliverables__control` / `.deliverables__panel`).
-- Some icons are intentionally reused across categories where the
-  underlying deliverable is the same thing (Internal tools/wrench in both
-  PM and FE; Component systems in both Design and FE; Logos & identity in
-  both Design and Marketing) — matches how the reference content repeats
-  these too, not a bug.
-- Old `.postit`/`.deliverables__grid` (24-item flat grid) CSS fully
-  replaced, not left alongside the new styles.
+### 3. Pricing tier cards redesigned (Ongoing Support section, `#pricing`)
+
+Dave's ask: lead with the headline instead of the hours figure, move hours
+into a parenthetical, drop the per-card exact annual-dollar text, and add
+something annual-related back in near the bottom. Also asked for tier
+names in a follow-up ("Focus / Momentum / Scale / Embedded" — recommended
+to reuse language already present in each card's own copy rather than
+generic SaaS names like Basic/Pro/Premium, which Dave accepted as-is).
+
+Per card, new top-to-bottom order: blue eyebrow tier name → headline
+(now the largest/lead text) → `(N hours)` → divider → price → weekly
+detail → long description → dedicated-hours checkmark → green annual note
+("Ask about locking in for a year to save with annual billing.") at the
+very bottom, replacing the old per-card "or $X/yr paid annually" line.
+
+- New `.pricing__tier-name` class (blue, uppercase, small) for Focus /
+  Momentum / Scale / Embedded.
+- `.pricing__tier-desc` (the headline) bumped up to lead size
+  (0.875rem → 1.0625rem) and given a `min-height` (4.05em, ~3 lines) on
+  desktop/tablet so the divider/price/etc. line up across the 4-card grid
+  regardless of how many lines each card's headline wraps to — reset to
+  `min-height: 0` in the ≤768px single-column layout where cross-card
+  alignment doesn't apply.
+- `.pricing__tier-hours` restyled from an uppercase standalone label to a
+  quiet parenthetical caption under the headline.
+- `.pricing__tier-annual` (green) repurposed and repositioned: same class,
+  moved to the bottom of the card, reworded to the generic annual-billing
+  prompt (no dollar figures, since it's shared across all four tiers now).
+
+Verified at desktop (4-across) and 480px mobile via isolated Playwright
+screenshots; ran `check.sh` clean after.
 
 ## Open items / things to revisit
 
-- **A pre-push `check.sh` script** — a tiny script that runs a tag-balance
-  sanity check and a headless screenshot pass at the three breakpoints, so
-  "pineapple" doesn't rely on manually driving a browser every time. Not
-  started. Worth noting: browser-based screenshot verification in this
-  environment hits a window-size floor around 750–800px CSS width and a
-  capture-goes-blank issue past ~4000px scroll depth (worked around this
-  session by temporarily hiding other sections before screenshotting the
-  deliverables section, same trick used last session for the Low-Risk
-  section) — a `check.sh` using a real headless tool (e.g. Playwright)
-  would likely sidestep both.
-- **Narrow-viewport (≤480px) verification of this session's new sections**
-  — the Work carousel and the deliverables tab control both got responsive
-  CSS rules added (card widths, tab wrapping, 2-column icon grid) but
-  weren't pixel-verified at true small-phone widths, for the same tooling
-  floor reason as above. The rules follow patterns already proven
-  elsewhere on the page, but flag this if something looks off on a real
-  phone.
-- **The $460–620K figure** (`.whynothire__badresult-note`) — appears in
-  exactly one place in the live HTML; nothing to centralize unless Combos
-  (now permanently removed) or something like it comes back.
-- No client feedback yet on anything shipped this session or prior
+- **No client feedback yet** on anything shipped this session or prior
   sessions.
+- **`check.sh` is manual, not enforced** — nothing currently stops a push
+  without running it. Worth considering a git pre-push hook if it starts
+  getting skipped, but not set up (Dave hasn't asked for this).
+- The $460–620K figure (`.whynothire__badresult-note`) — appears in
+  exactly one place in the live HTML; nothing to centralize unless Combos
+  (permanently removed) or something like it comes back.
 
 ## Next-session prompt (copy/paste this in cold)
 
@@ -155,14 +147,13 @@ GitHub Pages deploy gate, tell me what's still open, update HANDOFF.md, and hand
 fresh copy-paste prompt like this one for the session after that.
 
 Current state: clean, pushed live (see `git log -1` for the exact commit), deploy gate
-passed. This session permanently removed the commented-out Combos section, converted
-"Work Across Industries" into a horizontal scroll-snap carousel with prev/next arrows,
-and rebuilt "Everything we deliver" as a tabbed post-it board (Product Management /
-Design / Front End Engineering / Product Marketing) with clean-line icons matching the
-rest of the site (a hand-drawn icon style was prototyped and explicitly rejected in
-favor of this). Top of the open-items list: a pre-push check.sh script (still not
-started) and narrow-viewport (≤480px) verification of this session's two new/reworked
-sections, which is blocked by the same browser-automation window-size floor noted in
-prior sessions. No client feedback yet on any of this session's or prior sessions'
-changes.
+passed. This session added check.sh (a pre-push script covering HTML tag balance +
+headless load/console/network checks + screenshots at the three breakpoints — run it
+before pushing; first run installs Playwright, ~270MB one-time), verified both of last
+session's new sections at ≤480px (clean), and redesigned the pricing/ongoing-support
+tier cards: headline-first layout, hours as a parenthetical, tier names (Focus /
+Momentum / Scale / Embedded), and the annual-pricing mention moved from a per-card
+dollar figure to a generic prompt at the bottom of each card. No client feedback yet on
+any of this session's or prior sessions' changes. check.sh is manual only — no hook
+enforces it before push.
 ```

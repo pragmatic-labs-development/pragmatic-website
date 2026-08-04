@@ -1,7 +1,7 @@
-# Handoff — Production Deploy to get-pragmatic.com
+# Handoff — Hero Copy Rework (Agency, Not a Builder)
 
 Last updated: 2026-08-04
-Base commit: 4c4ce01 (see `git log -1` to confirm)
+Base commit: a609c95 (see `git log -1` to confirm)
 
 ## 🍍 Pineapple — the end-of-session ship checklist
 
@@ -84,9 +84,13 @@ uses `assets/favicon.svg`). Harmless clutter, not cleaned up — ask Dave
 before deleting anything from production since `deploy-production.sh`
 intentionally avoids `--delete`.
 
-**This session's production push already happened** — verified live:
-`https://get-pragmatic.com/` now serves this repo's current `index.html`
-(confirmed via title tag and a fresh `css/styles.css` timestamp).
+**That production push happened in a prior session** (infra-setup session,
+base commit `4c4ce01`) — verified live at the time. **Production is now
+stale**: this session changed the hero copy (see below) and pushed it to
+GitHub Pages only, per the pineapple rule. `get-pragmatic.com` still serves
+the pre-rewrite hero. Run `./deploy-production.sh --dry-run` then
+`./deploy-production.sh` when Dave wants that pushed live — don't do it
+unprompted.
 
 ## Where things stand
 
@@ -120,36 +124,57 @@ console/network checks, screenshots at three breakpoints.
 
 ## What changed this session
 
-No code changes to the site itself. This was entirely about production
-infrastructure:
+Client feedback: the site read like a Squarespace/Wix-type company (a
+builder tool) rather than an agency you hire. Diagnosed the hero
+(`index.html:100-104`) as the cause — the old headline "We build your web
+app, mobile app, or marketing website" is output-framed, the same pattern
+builder tools use, and never signaled "team you hire" or the design+code
+duality. Reworked hero copy only (no visual/mockup changes, no other
+sections touched):
 
-1. Discovered `get-pragmatic.com` was running a completely different,
-   unrelated site (not this repo) on DreamHost — see "Production deploy"
-   above for full detail.
-2. Set up SSH key auth + enabled SSH access for the DreamHost SFTP user
-   `dh_urv63i`, all via the DreamHost web panel (no credentials ever
-   typed in chat).
-3. Added `deploy-production.sh` to the repo.
-4. Ran it for real — `get-pragmatic.com` now serves this repo's actual
-   homepage for the first time.
-5. Clarified with Dave that "pineapple" stays GitHub-Pages-only;
-   production deploys remain a separate, explicitly-requested action.
+- Eyebrow: `Design & Front-End Engineering` → `The Front-End Agency
+  Experts`
+- H1: `We build your web app, mobile app, or marketing website.` →
+  `UX/UI Design & Front-End Coding.` — states the two core disciplines
+  directly, as the biggest text on the page.
+- Subtitle: reworked to lead with speed ("a working interface up within
+  hours") and frame product management/marketing as secondary ("what we
+  do most" vs. "there too, for the full product stack when you need it").
+
+Went through a few iterations live with Dave (tried leading with a
+hire-cost framing first, then swapped in the "Front-End Agency Experts" /
+"UX/UI Design & Front-End Coding" pairing, then caught and fixed an
+eyebrow/H1 content swap) — final copy is in `index.html:102-104`. Verified
+at 1024/768/480px via `check.sh` screenshots before pushing. Pushed to
+`main`, GitHub Pages deploy gate passed (run `30934515799`).
 
 ## Open items / things to revisit
 
+- **Production (`get-pragmatic.com`) is now stale** — it still has the
+  pre-rewrite hero copy from the prior session's production push. Run
+  `./deploy-production.sh` when Dave wants the new hero live there too.
 - **Showcase heading copy is still a placeholder** — Dave deferred
   polishing it in an earlier session; still not revisited.
-- **No client feedback yet** on anything shipped, now including the first
-  real production push.
+- **No client feedback yet** on the new hero copy itself — this was a
+  reaction to earlier feedback ("looks like Squarespace/Wix"), not yet
+  re-validated with whoever gave that feedback.
+- **Hero visual mockup untouched** — the abstract laptop/tablet/phone
+  dashboard art was flagged as part of the "looks like a builder tool"
+  impression but explicitly deferred (copy-only pass this session, per
+  Dave's call). Worth a follow-up if the copy fix alone doesn't land.
+- **"Our Work" section uses illustrative/placeholder-labeled examples**
+  (`index.html:391-492`, tagged "Example · FinTech" etc. with generic
+  phone mockups, not real client work) — noticed while reading the page
+  for this task, not addressed. Could reinforce the same "template" vibe
+  the hero fix targets; flagged, not requested yet.
 - **`check.sh` is manual, not enforced** — no pre-push hook.
 - **GitHub Actions Node.js 20 deprecation warning** in
   `.github/workflows/deploy.yml` — not urgent, still not addressed.
 - **Orphaned files on production** (`Pragmatic-Logo.svg`, `favicon.ico`,
   `favicon.gif`) — harmless, not cleaned up, ask before deleting.
-- **No CI automation for production deploys** — by design for now
-  (Dave's choice this session). If that changes, it would need the
-  deploy key added as a GitHub Actions secret — a bigger step than
-  today's manual script.
+- **No CI automation for production deploys** — by design for now. If
+  that changes, it would need the deploy key added as a GitHub Actions
+  secret — a bigger step than today's manual script.
 - **DreamHost production credentials**: SFTP/SSH details and the deploy
   key live in this HANDOFF and `deploy-production.sh`, not in git secrets
   or a password manager entry — worth formalizing later if this becomes a
@@ -164,19 +189,23 @@ that's a standing codeword: when I say "pineapple," push all changes live to Git
 (NOT production), check the deploy gate, tell me what's still open, update HANDOFF.md, and
 hand me a fresh copy-paste prompt like this one for the session after that.
 
-Current state: this session made no code changes — it set up production deploy
-infrastructure instead. get-pragmatic.com was discovered to be a completely separate,
-outdated site on DreamHost, disconnected from this repo's GitHub Actions (which only ever
-reached the GitHub Pages preview URL). Set up SSH key auth for the DreamHost SFTP user
-(dh_urv63i @ iad1-shared-b8-43.dreamhost.com), enabled SSH access for that user, and added
-deploy-production.sh to the repo. Ran it for real — get-pragmatic.com now serves this
-repo's actual homepage for the first time, verified live. Pineapple stays GitHub-Pages-only
-by Dave's choice; production pushes remain a separate explicit step via
-./deploy-production.sh (dry-run flag available). Open: showcase heading copy still a
-placeholder, no client feedback yet, check.sh still not enforced via a hook, Node 20
-deprecation warning in deploy.yml still pending, three harmless orphaned legacy files
-still sit on production (Pragmatic-Logo.svg/favicon.ico/favicon.gif — deploy-production.sh
-deliberately never uses --delete so ask before removing them), and no CI automation exists
-for production deploys (deliberate for now — would need the deploy key as a GitHub Actions
-secret if that changes later).
+Current state: this session reworked the hero section copy in response to client feedback
+that the site looked like a Squarespace/Wix builder rather than an agency you hire. Changed
+the eyebrow ("The Front-End Agency Experts"), H1 ("UX/UI Design & Front-End Coding."), and
+subtitle (leads with "a working interface up within hours," frames design + front-end
+coding as the main focus and PM/marketing as secondary) in index.html:102-104. No other
+code changed — device mockup, CTAs, and all other sections untouched by design. Verified at
+1024/768/480px via check.sh before pushing. Pushed to GitHub Pages (main), deploy gate
+passed. Pineapple stays GitHub-Pages-only; production (get-pragmatic.com) is now stale
+relative to this new hero copy — run ./deploy-production.sh when Dave wants it live there
+(dry-run flag available). Open: no client feedback yet on the new copy itself, hero visual
+mockup (abstract dashboard art) was flagged as part of the "looks like a builder" impression
+but deliberately left untouched this pass, "Our Work" section uses illustrative/placeholder
+examples that may reinforce the same template vibe (not addressed, just flagged), showcase
+heading copy still a placeholder, check.sh still not enforced via a hook, Node 20 deprecation
+warning in deploy.yml still pending, three harmless orphaned legacy files still sit on
+production (Pragmatic-Logo.svg/favicon.ico/favicon.gif — deploy-production.sh deliberately
+never uses --delete so ask before removing them), and no CI automation exists for production
+deploys (deliberate for now — would need the deploy key as a GitHub Actions secret if that
+changes later).
 ```

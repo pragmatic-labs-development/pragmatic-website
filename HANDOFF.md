@@ -5,26 +5,22 @@ Base commit: a609c95 (see `git log -1` to confirm)
 
 ## 🍍 Pineapple — the end-of-session ship checklist
 
-**"Pineapple" is a standing codeword, used session to session.** When Dave
-says "pineapple" (or "run pineapple"), it means:
+**"Pineapple" is a standing codeword, used session to session.** The full,
+authoritative checklist lives in the `pineapple` project skill —
+`.claude/skills/pineapple/SKILL.md` — not here. Read that file when Dave
+says "pineapple." Summary, kept in sync with the skill:
 
-1. **Push all changes live.** Commit the working tree (specific files, not
-   blind `git add -A`) with a clear message, push to `origin/main`. This
-   repo has no PR/branch workflow — `main` is the only branch and pushing to
-   it directly triggers deployment.
-2. **Check the gate.** Pushing to `main` triggers the `Deploy to GitHub
-   Pages` GitHub Actions workflow (`.github/workflows/deploy.yml`). Watch
-   the run (`gh run list` / `gh run watch`) and confirm it succeeds — that's
-   "the gate." If it fails, say so immediately and don't report the session
-   as shipped.
-3. **Surface remaining work.** Anything still open — items in "Open
-   items" below, uncommitted files that didn't get swept up, known bugs not
-   yet fixed — gets called out explicitly, not buried.
-4. **Update this file.** Rewrite `HANDOFF.md` to reflect what actually
-   shipped this session, in the format this file already uses.
-5. **Write a next-session prompt.** A short copy-pasteable block (see
-   bottom of this file) that the next session can paste in cold to pick up
-   exactly where this one left off.
+1. Push all changes live (specific files, not blind `git add -A`) to
+   `origin/main` — this repo has no PR/branch workflow, pushing to `main`
+   deploys directly.
+2. Check the gate — watch the "Deploy to GitHub Pages" Actions run and
+   confirm it succeeds before calling the session shipped.
+3. Surface remaining open work explicitly.
+4. Rewrite this file to reflect what shipped.
+5. **Paste the next-session prompt as literal text in the chat reply
+   itself** — not just saved into this file. This exact step has been
+   missed twice (2026-08-02, 2026-08-04) by treating "write it down" as
+   sufficient; the skill file has a hard self-check for this now.
 
 Pushing to a shared remote is still a real action — if a session ever has
 unreviewed/uncertain changes when "pineapple" is called, flag that before

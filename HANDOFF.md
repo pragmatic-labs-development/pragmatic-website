@@ -1,7 +1,7 @@
-# Handoff — Hero Copy Rework (Agency, Not a Builder)
+# Handoff — Pineapple Skill Test Run
 
 Last updated: 2026-08-04
-Base commit: a609c95 (see `git log -1` to confirm)
+Base commit: 9e74a51 (see `git log -1` to confirm)
 
 ## 🍍 Pineapple — the end-of-session ship checklist
 
@@ -124,6 +124,23 @@ console/network checks, screenshots at three breakpoints.
 
 ## What changed this session
 
+**Pineapple test run (later in this same session):** Dave said "pineapple"
+to test whether the new skill fixes the missed-step problem. Invoking it
+by name (`pragmatic-website:pineapple`) failed — `Unknown skill` — the
+skill file was created mid-session and doesn't appear to get picked up
+until a fresh session scans `.claude/skills/` again. Worked around it by
+reading `.claude/skills/pineapple/SKILL.md` directly and following it as
+instructions instead. Nothing to push (working tree was already clean —
+everything from earlier in the session was committed and pushed already).
+Gate re-confirmed green on the last push. **Open question for next
+session: does the skill auto-load and get invoked by name normally once
+it's not brand-new?** If "pineapple" still doesn't trigger the skill by
+name next time, something's wrong with discovery/naming, not just
+freshness — worth a closer look then.
+
+Everything below this note describes what actually shipped earlier in
+this session (still accurate, unchanged by the test above):
+
 Client feedback: the site read like a Squarespace/Wix-type company (a
 builder tool) rather than an agency you hire. Diagnosed the hero
 (`index.html:100-104`) as the cause — the old headline "We build your web
@@ -181,33 +198,34 @@ at 1024/768/480px via `check.sh` screenshots before pushing. Pushed to
 
 ```
 Working on /Users/dave/pragmatic-website (GitHub: pragmatic-labs-development/pragmatic-website).
-Read HANDOFF.md at the repo root first. When I say "pineapple," invoke the `pineapple`
-project skill (.claude/skills/pineapple/SKILL.md) rather than reconstructing the checklist
-from memory — it's the authoritative version and has a hard self-check for the step that
-kept getting missed (pasting the next-session prompt as literal chat text, not just saving
-it to this file).
+Read HANDOFF.md at the repo root first.
 
-Current state: this session reworked the hero section copy in response to client feedback
-that the site looked like a Squarespace/Wix builder rather than an agency you hire. Changed
-the eyebrow ("The Front-End Agency Experts"), H1 ("UX/UI Design & Front-End Coding."), and
-subtitle (leads with "a working interface up within hours," frames design + front-end
-coding as the main focus and PM/marketing as secondary) in index.html:102-104. No other
-code changed — device mockup, CTAs, and all other sections untouched by design. Verified at
-1024/768/480px via check.sh before pushing. Pushed to GitHub Pages via pineapple, deploy
-gate passed. Also created the `pineapple` skill itself this session (see above) after the
-next-session-prompt step got missed twice. Dave then explicitly asked to push to production
-too — ran ./deploy-production.sh --dry-run (confirmed only index.html was out of sync), then
-the real deploy, then verified live via curl. Production and GitHub Pages are both current
-as of this session; nothing is stale. Dave wants to test the new pineapple skill next
-session to confirm it actually fixes the missed-step problem — treat that as the first
-thing to watch for. Open: no client feedback yet on the new hero copy itself, hero visual
-mockup (abstract dashboard art) was flagged as part of the "looks like a builder" impression
-but deliberately left untouched this pass, "Our Work" section uses illustrative/placeholder
-examples that may reinforce the same template vibe (not addressed, just flagged), showcase
-heading copy still a placeholder, check.sh still not enforced via a hook, Node 20 deprecation
-warning in deploy.yml still pending, three harmless orphaned legacy files still sit on
-production (Pragmatic-Logo.svg/favicon.ico/favicon.gif — deploy-production.sh deliberately
-never uses --delete so ask before removing them), and no CI automation exists for production
-deploys (deliberate for now — would need the deploy key as a GitHub Actions secret if that
-changes later).
+FIRST THING TO CHECK: when I say "pineapple," try invoking the `pineapple` project skill by
+name (it may show as `pragmatic-website:pineapple`). Last session this failed with "Unknown
+skill" — the skill file (.claude/skills/pineapple/SKILL.md) was created mid-session and
+didn't get picked up, presumably because skill discovery only scans at session start. This
+is a fresh session, so it should be discoverable now. If it invokes cleanly, great — use it.
+If it still fails, that's a real bug (not a freshness issue) — tell me, then fall back to
+reading .claude/skills/pineapple/SKILL.md directly and following it as instructions (it's
+written to work either way). Either path, the important part is the hard self-check in step
+5: don't finish the pineapple turn without literally pasting the next-session prompt as
+fenced text in the chat reply, not just saving it to this file — that step has been missed
+three times now across two different enforcement attempts (prose in HANDOFF.md, then a
+memory file), which is why it's now a skill with an explicit checklist gate.
+
+Current state: prior sessions reworked the hero copy (Squarespace/Wix feedback fix — eyebrow
+"The Front-End Agency Experts", H1 "UX/UI Design & Front-End Coding.", speed/capacity-focused
+subtitle) and pushed it to both GitHub Pages and production (get-pragmatic.com) — both
+verified live and in sync, nothing stale. This session was purely a pineapple-skill dry run:
+working tree was clean (nothing new to push), gate reconfirmed green, and the skill-by-name
+invocation failed as described above. No site content changed this session. Open: no client
+feedback yet on the new hero copy, hero visual mockup (abstract dashboard art) still flagged
+as part of the "looks like a builder" impression but deliberately untouched, "Our Work"
+section uses illustrative/placeholder examples that may reinforce the same template vibe
+(not addressed, just flagged), showcase heading copy still a placeholder, check.sh still not
+enforced via a hook, Node 20 deprecation warning in deploy.yml still pending, three harmless
+orphaned legacy files still sit on production (Pragmatic-Logo.svg/favicon.ico/favicon.gif —
+deploy-production.sh deliberately never uses --delete so ask before removing them), and no CI
+automation exists for production deploys (deliberate for now — would need the deploy key as
+a GitHub Actions secret if that changes later).
 ```

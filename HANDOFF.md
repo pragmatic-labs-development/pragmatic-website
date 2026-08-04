@@ -82,11 +82,15 @@ intentionally avoids `--delete`.
 
 **That production push happened in a prior session** (infra-setup session,
 base commit `4c4ce01`) — verified live at the time. **Production is now
-stale**: this session changed the hero copy (see below) and pushed it to
-GitHub Pages only, per the pineapple rule. `get-pragmatic.com` still serves
-the pre-rewrite hero. Run `./deploy-production.sh --dry-run` then
-`./deploy-production.sh` when Dave wants that pushed live — don't do it
-unprompted.
+stale for a while**: this session changed the hero copy and pushed it to
+GitHub Pages first, per the pineapple rule. Dave then explicitly asked to
+push it to production too — ran `./deploy-production.sh --dry-run`
+(confirmed only `index.html` was out of sync), then `./deploy-production.sh`
+for real. Verified live via curl against `get-pragmatic.com` — the new
+hero copy ("The Front-End Agency Experts" / "UX/UI Design & Front-End
+Coding.") is confirmed serving. Production and GitHub Pages are back in
+sync as of this session. Still don't push to production unprompted next
+time — ask first, same as always.
 
 ## Where things stand
 
@@ -146,9 +150,6 @@ at 1024/768/480px via `check.sh` screenshots before pushing. Pushed to
 
 ## Open items / things to revisit
 
-- **Production (`get-pragmatic.com`) is now stale** — it still has the
-  pre-rewrite hero copy from the prior session's production push. Run
-  `./deploy-production.sh` when Dave wants the new hero live there too.
 - **Showcase heading copy is still a placeholder** — Dave deferred
   polishing it in an earlier session; still not revisited.
 - **No client feedback yet** on the new hero copy itself — this was a
@@ -180,10 +181,11 @@ at 1024/768/480px via `check.sh` screenshots before pushing. Pushed to
 
 ```
 Working on /Users/dave/pragmatic-website (GitHub: pragmatic-labs-development/pragmatic-website).
-Read HANDOFF.md at the repo root first, including the "Pineapple" section at the top —
-that's a standing codeword: when I say "pineapple," push all changes live to GitHub Pages
-(NOT production), check the deploy gate, tell me what's still open, update HANDOFF.md, and
-hand me a fresh copy-paste prompt like this one for the session after that.
+Read HANDOFF.md at the repo root first. When I say "pineapple," invoke the `pineapple`
+project skill (.claude/skills/pineapple/SKILL.md) rather than reconstructing the checklist
+from memory — it's the authoritative version and has a hard self-check for the step that
+kept getting missed (pasting the next-session prompt as literal chat text, not just saving
+it to this file).
 
 Current state: this session reworked the hero section copy in response to client feedback
 that the site looked like a Squarespace/Wix builder rather than an agency you hire. Changed
@@ -191,10 +193,14 @@ the eyebrow ("The Front-End Agency Experts"), H1 ("UX/UI Design & Front-End Codi
 subtitle (leads with "a working interface up within hours," frames design + front-end
 coding as the main focus and PM/marketing as secondary) in index.html:102-104. No other
 code changed — device mockup, CTAs, and all other sections untouched by design. Verified at
-1024/768/480px via check.sh before pushing. Pushed to GitHub Pages (main), deploy gate
-passed. Pineapple stays GitHub-Pages-only; production (get-pragmatic.com) is now stale
-relative to this new hero copy — run ./deploy-production.sh when Dave wants it live there
-(dry-run flag available). Open: no client feedback yet on the new copy itself, hero visual
+1024/768/480px via check.sh before pushing. Pushed to GitHub Pages via pineapple, deploy
+gate passed. Also created the `pineapple` skill itself this session (see above) after the
+next-session-prompt step got missed twice. Dave then explicitly asked to push to production
+too — ran ./deploy-production.sh --dry-run (confirmed only index.html was out of sync), then
+the real deploy, then verified live via curl. Production and GitHub Pages are both current
+as of this session; nothing is stale. Dave wants to test the new pineapple skill next
+session to confirm it actually fixes the missed-step problem — treat that as the first
+thing to watch for. Open: no client feedback yet on the new hero copy itself, hero visual
 mockup (abstract dashboard art) was flagged as part of the "looks like a builder" impression
 but deliberately left untouched this pass, "Our Work" section uses illustrative/placeholder
 examples that may reinforce the same template vibe (not addressed, just flagged), showcase
